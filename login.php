@@ -102,7 +102,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
             </div>
             <!-- <input id="cancel" class="btn" type="submit" name="cancel" value="Cancel"> -->
         </form>
-        <p style='text-align: center;color:red;'>Try the password 'password' if you can't login</p>
+        <!-- <p style='text-align: center;color:red;'>Try the password 'password' if you can't login</p> -->
     </div>
     <script>
         function doValidate() {

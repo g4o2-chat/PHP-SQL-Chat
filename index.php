@@ -102,7 +102,7 @@ if (isset($_SESSION['email'])) {
                     <th>User</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Last online</th>
+                    <th>Last active</th>
                 </tr>
             </thead>';
 
@@ -137,17 +137,17 @@ if (isset($_SESSION['email'])) {
                     $exploded = explode(" ", $diff);
 
                     if ($exploded[2] == "1") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[2] day ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[2]&nbsp;day&nbsp;ago</p>";
                     } elseif ($exploded[4] == "1") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[4] hour ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[4]&nbsp;hour&nbsp;ago</p>";
                     } elseif ($exploded[7] == "1") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[7] minute ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[7]&nbsp;minute&nbsp;ago</p>";
                     } elseif ($exploded[2] !== "0") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[2] days ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[2]&nbsp;days&nbsp;ago</p>";
                     } elseif ($exploded[4] !== "0") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[4] hours ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[4]&nbsp;hours&nbsp;ago</p>";
                     } elseif ($exploded[7] !== "0") {
-                        $diff = "<p style='color:#ffc200;'>Last online $exploded[7] minutes ago</p>";
+                        $diff = "<p style='color:#ffc200;'>$exploded[7]&nbsp;minutes&nbsp;ago</p>";
                     } else {
                         $diff = "<p style='color: green;'>Online</p>";
                     }
@@ -181,7 +181,7 @@ if (isset($_SESSION['email'])) {
             // echo '<a style="user-select: none;" class="pfp-link" href="https://github.com/maxhu787" target="_blank"><img style="animation-name: g4o2-breath; animation-iteration-count: infinite; animation-duration: 2.5s; position: fixed; height: 50px; width: 50px; border-radius: 120px; top: 80px; right: 20px;z-index: 100;" src="./g4o2.jpeg"></a>';
         }
         ?>
-        <div style='margin-top: 20px;'>
+        <!--<div style='margin-top: 20px;'>
             <a href="https://github.com/maxhu787" target="_blank">
                 <img src="https://github-readme-stats.vercel.app/api?username=maxhu787&show_icons=true&theme=react&bg_color=0D1117" />
             </a>
@@ -191,7 +191,7 @@ if (isset($_SESSION['email'])) {
             <a href="https://github.com/g4o2/g4o2" target="_blank">
                 <img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2&theme=react&bg_color=0D1117" />
             </a>
-        </div>
+        </div>-->
     </div>
     <div id="announcements">
         <h3 style="font-family: orbitron;">Announcements</h3><br />
