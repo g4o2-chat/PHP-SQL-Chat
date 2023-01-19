@@ -221,6 +221,7 @@ if (isset($_SESSION['email'])) {
         <h4>Creating accounts & Guest account disabled <code>2022/12/4</code></h4>
         <h4>New index, login page (again) <code>2022/12/4</code></h4>
         <h4>Mobile support fix (1) <code>2022/12/11</code></h4>
+        <h4><a href="https://github.com/g4o2/g4o2" target="_blank">Websocket test version</a> in development <code>2023/1/5</code></h4>
     </div>
     <footer>
         <p style="color: rgb(153, 157, 162)">© <?= date("Y") ?> g4o2.&nbsp;All&nbsp;rights&nbsp;reserved | <a href="./terms-of-service.php" target="_blank">Terms&nbsp;of&nbsp;Service</a> | <a href="./privacy-policy.php" target="_blank">Privacy</a></p>
