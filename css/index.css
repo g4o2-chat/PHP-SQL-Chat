@@ -87,7 +87,7 @@ body {
 }
 .announcement-highlight {
     font-family: monospace;
-    color: rgb(0, 255, 128);
+    color: #ffa500;
     font-size: .8em;
 }
 

@@ -22,6 +22,9 @@ a:hover {
     color: #ffa500;
     text-decoration: underline;
 }
+code {
+    color: #ffa500;
+}
 input {
     color: rgb(51, 51, 51);
 }

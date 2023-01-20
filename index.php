@@ -195,15 +195,15 @@ if (isset($_SESSION['email'])) {
     </div>
     <div id="announcements">
         <h3 style="font-family: orbitron;">Announcements</h3><br />
-        <h4>Site creation / v0.0.1 <code>2022/8/23</code></h4>
-        <h4>Login system | 8 created accounts <code>2022/8/24</code></h4>
+        <h4>v0.0.1 <code>2022/8/23</code></h4>
+        <h4>php login system <code>2022/8/24</code></h4>
         <h4>Chat now available <code>2022/8/25</code></h4>
         <h4>Profile pictures are now available <code>2022/8/26</code></h4>
-        <h4>Profile system <code>2022/8/28</code></h4>
+        <h4>User profile page <code>2022/8/28</code></h4>
         <h4>New website theme/style & added user 👤 profile link table on index page <code>2022/9/11</code></h4>
-        <h4>Show / Hide email 📧 feature implemented check it out now in the <a href="./edit-account.php">account settings</a> <code>2022/9/17</code></h4>
+        <h4>You can now choose to <span class='announcement-highlight'>show/hide</span> your email via <a href="./edit-account.php">account settings</a> <code>2022/9/17</code></h4>
         <h4>You can now <span class='announcement-highlight'>edit messages</span> <code>2022/9/18</code></h4>
-        <h4>You can now edit / change your passwords 🔑 via <a href="./edit-account.php">account settings</a> <code>2022/9/23</code></h4>
+        <h4>You can now <span class='announcement-highlight'>edit/change</span> your passwords 🔑 via <a href="./edit-account.php">account settings</a> <code>2022/9/23</code></h4>
         <h4>Chat now only runs a query to get msgs when a new msg is sent <code>2022/9/24</code></h4>
         <h4>Message editing exploit fixed <code>2022/9/24</code></h4>
         <h4>New <a href="./login.php">login</a> &amp; <a href="./edit-account.php">edit account</a> pages <code>2022/9/25</code></h4>
@@ -219,9 +219,10 @@ if (isset($_SESSION['email'])) {
         <h4>New features added include <span class='announcement-highlight'>ip loggin on login fail</span>, and <span class='announcement-highlight'>guest accounts</span> <code>2022/11/4</code></h4>
         <h4>Several exploits fixed <code>2022/11/4</code></h4>
         <h4>Creating accounts & Guest account disabled <code>2022/12/4</code></h4>
-        <h4>New index, login page (again) <code>2022/12/4</code></h4>
+        <h4>New index, login page (2) <code>2022/12/4</code></h4>
         <h4>Mobile support fix (1) <code>2022/12/11</code></h4>
         <h4><a href="https://github.com/g4o2/g4o2" target="_blank">Websocket test version</a> in development <code>2023/1/5</code></h4>
+        <h4>Account creation re-enabled <code>2023/1/20</code></h4>
     </div>
     <footer>
         <p style="color: rgb(153, 157, 162)">© <?= date("Y") ?> g4o2.&nbsp;All&nbsp;rights&nbsp;reserved | <a href="./terms-of-service.php" target="_blank">Terms&nbsp;of&nbsp;Service</a> | <a href="./privacy-policy.php" target="_blank">Privacy</a></p>
