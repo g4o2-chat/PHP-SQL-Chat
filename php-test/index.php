@@ -31,7 +31,7 @@
     while ($file = readdir($handle)) {
         if ($file !== 'index.php') {
             if ($file !== '.' && $file !== '..') {
-                echo '<img class="img-upload" src="' . $file . '" border="0" />';
+                echo '<img class="img-upload" src="./php-test/' . $file . '" border="0" />';
             }
         }
     }
