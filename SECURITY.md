@@ -10,7 +10,7 @@
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, do not go to the issues tab since other people can see it.<br />
-Instead, send an email to <a href="mailto:maxhu787@gmail.com">g4o2</a>
+To report a vulnerability, go to the issues tab and select ```Report a security vulnerability```.<br />
+You can also send an email to <a href="mailto:maxhu787@gmail.com">g4o2</a>
 
 It will be reviewed as soon as possible.
