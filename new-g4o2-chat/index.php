@@ -13,7 +13,7 @@ if (isset($_SESSION['email'])) {
     $stmt = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
     $stmt->execute(array(':usr' => $_SESSION['user_id']));
     $user_status_log = $stmt->fetch();
-    
+    $pfpsrc_default = './assets/images/default-user-square.png';
     
     if ($user[0]['pfp'] != null) {
         $userpfp = $user[0]['pfp'];
@@ -47,9 +47,9 @@ $pfpsrc_default = './assets/images/default-user-square.png';
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav class="navbar fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="./index.php">
                 <img src="./assets/images/g4o2.jpeg" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
                 G4o2 Chat
             </a>
@@ -66,22 +66,22 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            Links
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Chat</a></li>
+                            <li><a class="dropdown-item" href="#">User Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled">Account</a>
+                        <a class="nav-link disabled">Private Messaging (coming soon)</a>
                     </li>
                 </ul>
-                <a class="btn btn-outline-success" href="./login.php">Login</a>
+                <a class="btn btn-outline-success" href="./login.php"><?= isset($_SESSION['user_id']) ? 'Logout' : 'Login' ?></a>
             </div>
         </div>
     </nav>
@@ -89,14 +89,15 @@ $pfpsrc_default = './assets/images/default-user-square.png';
         <?php
         echo '
             <table class="table">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Last active</th>
                 </tr>
-            </thead><tbody>';
+            </thead>
+            <tbody>';
         foreach ($accounts as $account) {
             if ($account['pfp'] != null) {
                 $pfpsrc = $account['pfp'];
@@ -109,12 +110,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
             $statement = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
             $statement->execute(array(':usr' => $account['user_id']));
             $user_status_log = $statement->fetch();
-
-            $userStatus = "Undefined";
-            if ($user_status_log != null) {
-                $userStatus = $user_status_log['last_active_date_time'];
-            }
-
+            $userStatus = ($user_status_log != null) ? $user_status_log['last_active_date_time'] : "Undefined";;
 
             if ($userStatus === "Undefined") {
                 $diff = "<p class='text-danger'>Null</p>";
@@ -149,11 +145,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
             echo ("</th><td>");
             echo "<a href='./profile.php?user={$account['user_id']}' >" . $account['name'] . "</a>";
             echo "<td>";
-            if ($account['show_email'] === "True") {
-                echo ($account['email']);
-            } else {
-                echo "<p class='text-warning'>Hidden</p>";
-            }
+            echo ($account['show_email'] === "True") ? "<p class='text-black'>" . $account['email'] . "</p>" : "<p class='text-warning'>Hidden</p>";
             echo ("</td><td>");
             echo $diff;
             echo ("</td></tr>\n");
@@ -185,7 +177,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                 <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://github.com/g4o2" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
@@ -208,7 +200,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                             pages
                         </h6>
                         <p>
-                            <a href="#" class="text-reset">Home</a>
+                            <a href="./index.php" class="text-reset">Home</a>
                         </p>
                         <p>
                             <a href="#" class="text-reset">Chat</a>
