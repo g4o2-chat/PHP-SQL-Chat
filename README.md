@@ -20,7 +20,7 @@ Most of the styling now is bootstrap except for the chat.php page (Still working
 Fell free to clone this repository and test stuff out.<br/>
 remember to star the repo
 
-# v1.1.1
+# v1.1.2
 
 ## Updates
 - Now using Bootstrap

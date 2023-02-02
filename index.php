@@ -165,10 +165,10 @@ if (isset($_SESSION['email'])) {
             }
             echo "<tbody></table>";
         } else {
-            echo '<p>Please login</p>';
-            echo '<img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo">';
-            echo '<img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"><hr/>';
-            echo '<img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787">';
+            echo '<p>Please <a class="btn btn-outline-success" href="./login.php">Login</a></p>';
+            echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
+            echo '<a href="https://github.com/g4o2/g4o2" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"></a><hr/>';
+            echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
         }
         ?>
     </main>
@@ -176,10 +176,10 @@ if (isset($_SESSION['email'])) {
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
             <div class="me-5 d-none d-lg-block">
                 <!-- <span>Get connected with us on social networks:</span> -->
-                <span>Footer</span>
+                <span>g4o2</span>
             </div>
             <div>
-                <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://www.facebook.com/profile.php?id=100075737822439" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
@@ -188,13 +188,13 @@ if (isset($_SESSION['email'])) {
                 <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-google"></i>
                 </a>
-                <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://www.instagram.com/hukaixiang1024/" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://www.linkedin.com/in/kaixiang-hu-6ab83a237/" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://github.com/g4o2" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://github.com/Maxhu787/" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
@@ -207,8 +207,8 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-gem me-3"></i>g4o2 chat
                         </h6>
                         <p>
-                            Development of this chat began on 2022/8/23, as a side project of <!--<a href="https://github.com/Maxhu787" target="_blank">g4o2</a>-->g4o2, and has been constantly updated with new and exciting features ever since.
-                            With about 50 users and some contributors that helped with the testing of this chat.
+                            Development of this chat began on 2022/8/23, as a side project of <!--<a href="https://github.com/Maxhu787" target="_blank">g4o2</a>-->g4o2, and has been constantly updated with new features ever since.
+                            With about 60 - 70 users and some contributors that helped with the testing of this chat.
 
                         </p>
                     </div>

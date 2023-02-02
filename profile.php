@@ -26,6 +26,7 @@ if (count($rows) > 0) {
     }
 } else {
     echo "<p align='center' class='text-danger'>User not found</p>";
+    die();
 }
 ?>
 <!DOCTYPE html>
