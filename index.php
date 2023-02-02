@@ -5,22 +5,22 @@ require_once "head.php";
 if (isset($_SESSION['email'])) {
     $stmt = $pdo->query("SELECT * FROM account");
     $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     $stmt = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
     $stmt->execute(array(':usr' => $_SESSION['user_id']));
     $user_status_log = $stmt->fetch();
     $pfpsrc_default = './assets/images/default-user-square.png';
-    
+
     if ($user[0]['pfp'] != null) {
         $userpfp = $user[0]['pfp'];
     } else {
         $userpfp = $pfpsrc_default;
     }
-    
+
     if ($user_status_log != null) {
         $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
         $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
@@ -47,7 +47,7 @@ if (isset($_SESSION['email'])) {
     <nav class="navbar fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./index.php">
-                <img src="./assets/images/g4o2.jpeg" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
+                <img src="./favicon.ico" alt="Logo" width="28" height="28" class="d-inline-block align-text-top">
                 G4o2 Chat
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,11 +63,11 @@ if (isset($_SESSION['email'])) {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Links
+                            Pages
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Chat</a></li>
-                            <li><a class="dropdown-item" href="./profile.php?id=<?=$_SESSION['user_id']?>">User Profile</a></li>
+                            <li><a class="dropdown-item" href="./profile.php?id=<?= $_SESSION['user_id'] ?>">User Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -82,20 +82,21 @@ if (isset($_SESSION['email'])) {
             </div>
         </div>
     </nav>
+    <!-- <div class="w-75 p-2" style="background-color: #eee;margin: auto;"> -->
     <main>
-            <?php
-            if (isset($_SESSION["error"])) {
-                echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
-                unset($_SESSION["error"]);
-            }
-            if (isset($_SESSION["success"])) {
-                echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
-                unset($_SESSION["success"]);
-            }
+        <?php
+        if (isset($_SESSION["error"])) {
+            echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+            unset($_SESSION["error"]);
+        }
+        if (isset($_SESSION["success"])) {
+            echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+            unset($_SESSION["success"]);
+        }
 
-            if (isset($_SESSION['user_id'])) {
-                echo 'User ID ' . $_SESSION['user_id'];
-                echo '
+        if (isset($_SESSION['user_id'])) {
+            echo 'User ID ' . $_SESSION['user_id'];
+            echo '
             <table class="table table-light table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -107,66 +108,66 @@ if (isset($_SESSION['email'])) {
                     </tr>
                 </thead>
                 <tbody>';
-                foreach ($accounts as $account) {
-                    if ($account['pfp'] != null) {
-                        $pfpsrc = $account['pfp'];
-                    } else {
-                        $pfpsrc = $pfpsrc_default;
-                    }
-
-                    $pfp = "<a class='pfp-link' href='./profile.php?id={$account['user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
-
-                    $statement = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
-                    $statement->execute(array(':usr' => $account['user_id']));
-                    $user_status_log = $statement->fetch();
-                    $userStatus = ($user_status_log != null) ? $user_status_log['last_active_date_time'] : "Undefined";;
-
-                    if ($userStatus === "Undefined") {
-                        $diff = "<p class='text-danger'>Undefined</p>";
-                    } else {
-                        $last_online = $userStatus;
-                        $current_date_time = date(DATE_RFC2822);
-                        $last_online = new DateTime($last_online);
-                        $current_date_time = new DateTime($current_date_time);
-
-                        $diff = $current_date_time->diff($last_online)->format("last online %a days %h hours and %i minutes ago");
-                        $exploded = explode(" ", $diff);
-
-                        if ($exploded[2] == "1") {
-                            $diff = "<p class='text-warning'>$exploded[2]&nbsp;day&nbsp;ago</p>";
-                        } elseif ($exploded[4] == "1") {
-                            $diff = "<p class='text-warning''>$exploded[4]&nbsp;hour&nbsp;ago</p>";
-                        } elseif ($exploded[7] == "1") {
-                            $diff = "<p class=' text-warning''>$exploded[7]&nbsp;minute&nbsp;ago</p>";
-                        } elseif ($exploded[2] !== "0") {
-                            $diff = "<p class='text-warning''>$exploded[2]&nbsp;days&nbsp;ago</p>";
-                        } elseif ($exploded[4] !== "0") {
-                            $diff = "<p class=' text-warning''>$exploded[4]&nbsp;hours&nbsp;ago</p>";
-                        } elseif ($exploded[7] !== "0") {
-                            $diff = "<p class='text-warning''>$exploded[7]&nbsp;minutes&nbsp;ago</p>";
-                        } else {
-                            $diff = "<p class=' text-success'>Online</p>";
-                        }
-                    }
-                    echo "<tr><th scope='row'>";
-                    echo ($account['user_id']);
-                    echo $pfp;
-                    echo ("</th><td>");
-                    echo "<a href='./profile.php?id={$account['user_id']}'>" . htmlentities($account['username']) . "</a>";
-                    echo "</td><td>";
-                    echo "<p>".htmlentities($account['name']) . "</p>";
-                    echo "</td><td>";
-                    echo ($account['show_email'] === "True") ? "<p class=''>" . htmlentities($account['email']) . "</p>" : "<p class='text-warning'>Hidden</p>";
-                    echo ("</td><td>");
-                    echo $diff;
-                    echo ("</td></tr>\n");
-                    echo ("</td></tr>\n");
+            foreach ($accounts as $account) {
+                if ($account['pfp'] != null) {
+                    $pfpsrc = $account['pfp'];
+                } else {
+                    $pfpsrc = $pfpsrc_default;
                 }
-                echo "<tbody></table>";
-            } else {
-                echo '<p>Please login</p>';
+
+                $pfp = "<a class='pfp-link' href='./profile.php?id={$account['user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
+
+                $statement = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
+                $statement->execute(array(':usr' => $account['user_id']));
+                $user_status_log = $statement->fetch();
+                $userStatus = ($user_status_log != null) ? $user_status_log['last_active_date_time'] : "Undefined";;
+
+                if ($userStatus === "Undefined") {
+                    $diff = "<p class='text-danger'>Undefined</p>";
+                } else {
+                    $last_online = $userStatus;
+                    $current_date_time = date(DATE_RFC2822);
+                    $last_online = new DateTime($last_online);
+                    $current_date_time = new DateTime($current_date_time);
+
+                    $diff = $current_date_time->diff($last_online)->format("last online %a days %h hours and %i minutes ago");
+                    $exploded = explode(" ", $diff);
+
+                    if ($exploded[2] == "1") {
+                        $diff = "<p class='text-warning'>$exploded[2]&nbsp;day&nbsp;ago</p>";
+                    } elseif ($exploded[4] == "1") {
+                        $diff = "<p class='text-warning''>$exploded[4]&nbsp;hour&nbsp;ago</p>";
+                    } elseif ($exploded[7] == "1") {
+                        $diff = "<p class=' text-warning''>$exploded[7]&nbsp;minute&nbsp;ago</p>";
+                    } elseif ($exploded[2] !== "0") {
+                        $diff = "<p class='text-warning''>$exploded[2]&nbsp;days&nbsp;ago</p>";
+                    } elseif ($exploded[4] !== "0") {
+                        $diff = "<p class=' text-warning''>$exploded[4]&nbsp;hours&nbsp;ago</p>";
+                    } elseif ($exploded[7] !== "0") {
+                        $diff = "<p class='text-warning''>$exploded[7]&nbsp;minutes&nbsp;ago</p>";
+                    } else {
+                        $diff = "<p class=' text-success'>Online</p>";
+                    }
+                }
+                echo "<tr><th scope='row'>";
+                echo ($account['user_id']);
+                echo $pfp;
+                echo ("</th><td>");
+                echo "<a href='./profile.php?id={$account['user_id']}'>" . htmlentities($account['username']) . "</a>";
+                echo "</td><td>";
+                echo "<p>" . htmlentities($account['name']) . "</p>";
+                echo "</td><td>";
+                echo ($account['show_email'] === "True") ? "<p class=''>" . htmlentities($account['email']) . "</p>" : "<p class='text-warning'>Hidden</p>";
+                echo ("</td><td>");
+                echo $diff;
+                echo ("</td></tr>\n");
+                echo ("</td></tr>\n");
             }
-            ?>
+            echo "<tbody></table>";
+        } else {
+            echo '<p>Please login</p>';
+        }
+        ?>
     </main>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
@@ -203,7 +204,7 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-gem me-3"></i>g4o2 chat
                         </h6>
                         <p>
-                            Development of this chat began on 2022/8/23, as a side project of <a href="https://github.com/Maxhu787" target="_blank">g4o2</a>, and has been constantly updated with new and exciting features ever since.
+                            Development of this chat began on 2022/8/23, as a side project of <!--<a href="https://github.com/Maxhu787" target="_blank">g4o2</a>-->g4o2, and has been constantly updated with new and exciting features ever since.
                             With about 50 users and some contributors that helped with the testing of this chat.
 
                         </p>
@@ -236,10 +237,10 @@ if (isset($_SESSION['email'])) {
                             <a href="./privacy-policy.php" class="text-reset">Privacy</a>
                         </p>
                         <p>
-                            <a href="#" class="text-reset">Settings</a>
+                            <a href="./cookie-policy.php" class="text-reset">Cookie Policy</a>
                         </p>
                         <p>
-                            <a href="#" class="text-reset">Help</a>
+                            <a href="./contact.php" class="text-reset">Contact</a>
                         </p>
                     </div>
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
@@ -248,7 +249,7 @@ if (isset($_SESSION['email'])) {
                         <p><i class="fas fa-envelope me-3"></i>Maxhu787@gmail.com</p>
                         <p><i class="fas fa-envelope me-3"></i>g4o2@protonmail.com</p>
                         <p><i class="fas fa-envelope me-3"></i>g4o3@protonmail.com</p>
-                        <p><i class="fas fa-print me-3"></i> + 01 234 456 89</p>
+                        <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
                     </div>
                 </div>
             </div>

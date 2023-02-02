@@ -162,9 +162,6 @@ if (isset($_POST["submit"])) {
         }
         return false;
     }
-    particlesJS.load('particles-js', './particles/particles.json', function() {
-        console.log('callback - particles.js config loaded');
-    });
     setTimeout(function() {
         document.querySelector('.popup-msg').style.display = "none";
         document.querySelector('.error').style.display = "none";
