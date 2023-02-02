@@ -67,6 +67,15 @@ if (isset($_POST["submit"])) {
         }
 
         if ($emailCheck != false) {
+            $statement = $pdo->prepare("SELECT user_id FROM account where username = :username");
+            $statement->execute(array(':username' => $_POST['username']));
+            $checkUsername = $statement->fetch();
+            if ($checkUsername['user_id'] == $_SESSION['user_id'] || $checkUsername['user_id'] == "") {
+                $usernameCheck = true;
+            } else {
+                $usernameCheck = false;
+            }
+            if($usernameCheck != false) {
             if (isset($_POST['password'])) {
                 $salt = getenv('SALT');
                 $newPassword = $_POST['password'];
@@ -98,6 +107,9 @@ if (isset($_POST["submit"])) {
                 ':showEmail' => $show_email
             ));
             $_SESSION['success'] = 'Account details updated.';
+            } else {
+                $_SESSION['error'] = 'Username taken';
+            }
         } else {
             $_SESSION['error'] = 'Email taken';
         }
@@ -174,7 +186,7 @@ if (isset($_POST["submit"])) {
 <body>
     <form class="form-signin" action="account-settings.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
-        Select image to upload for <?= $_SESSION['username'] ?>
+        Select image to upload for <?=htmlentities($_SESSION['username']) ?>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <label for="name" class="sr-only">Username</label>
         <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($response['username']) ?>">

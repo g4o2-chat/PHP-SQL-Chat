@@ -124,7 +124,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
 
 <body class="text-center">
     <form class="form-signin" method="post">
-        <img class="mb-4" src="./assets/images/g4o2.jpeg" alt="" width="72" height="72">
+        <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <p>
             <?php
@@ -150,7 +150,6 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return doValidate();">Sign in</button>
         <p class="mt-5 mb-3 text-muted">© <?= date("Y") ?></p>
         <p>Don't have an account yet? <a href='./signup.php'>register</a></p>
-    </form>
     </form>
     <script>
         function doValidate() {

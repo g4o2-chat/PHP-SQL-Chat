@@ -29,13 +29,13 @@ if (isset($_SESSION['email'])) {
 
     if ($user_status_log != null) {
         $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
-        $stmt->execute([$_SESSION['name'], date(DATE_RFC2822), $_SESSION['user_id']]);
+        $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
     } else {
         $stmt = $pdo->prepare('INSERT INTO user_status_log (user_id, account, last_active_date_time) VALUES (:usr, :acc, :date)');
         $stmt->execute(
             array(
                 ':usr' => $_SESSION['user_id'],
-                ':acc' => $_SESSION['name'],
+                ':acc' => $_SESSION['username'],
                 ':date' => date(DATE_RFC2822)
             )
         );
@@ -156,7 +156,7 @@ if (isset($_SESSION['email'])) {
                 echo ($account['user_id']);
                 echo $pfp;
                 echo ("</td><td>");
-                echo "<a href='./profile.php?user={$account['user_id']}' >" . $account['name'] . "</a>";
+                echo "<a href='./profile.php?user={$account['user_id']}' >" . htmlentities($account['username']) . "</a>";
                 echo "<td>";
                 if ($account['show_email'] === "True") {
                     echo ($account['email']);
@@ -171,7 +171,7 @@ if (isset($_SESSION['email'])) {
             echo "</table>";
 
             $pfp = "<a class='pfp-link' href='./profile.php?user={$_SESSION['user_id']}'><img class='profile-img-large' src='$userpfp'></a>";
-            $main = "<p id='profile-name'>{$_SESSION['name']}</p><p id='profile-email'>{$_SESSION['email']}</p>";
+            $main = "<p id='profile-name'>{$_SESSION['username']}</p><p id='profile-email'>{$_SESSION['email']}</p>";
             $profileLink = "<a href='./profile.php?user={$_SESSION['user_id']}'>Your public profile</a>";
             $actions = '<a href="edit-account.php">Account Settings</a> | <a href="logout.php">Logout</a>';
             echo "<div id='profile'><button id='close-btn' onclick='closeProfile()'>&times;</button>{$pfp}{$main}{$actions}<br />{$profileLink}</div>";
