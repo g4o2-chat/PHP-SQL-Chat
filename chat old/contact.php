@@ -1,1 +1,0 @@
-Email: <a href="mailto:maxhu787@gmail.com">maxhu787@gmail.com</a>, <a href="mailto:g4o2@protonmail.com">g4o2@protonmail.com</a>

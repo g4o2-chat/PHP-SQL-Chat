@@ -44,7 +44,7 @@ if (isset($_SESSION['email'])) {
 </head>
 
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-dark  fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./index.php">
                 <img src="./favicon.ico" alt="Logo" width="28" height="28" class="d-inline-block align-text-top">
@@ -66,7 +66,7 @@ if (isset($_SESSION['email'])) {
                             Pages
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Chat</a></li>
+                            <li><a class="dropdown-item" href="./chat.php">Chat</a></li>
                             <li><a class="dropdown-item" href="./profile.php?id=<?= $_SESSION['user_id'] ?>">User Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -75,7 +75,7 @@ if (isset($_SESSION['email'])) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled">Private Messaging (coming soon)</a>
+                        <a class="nav-link disabled">Private Messaging</a>
                     </li>
                 </ul>
                 <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
@@ -166,6 +166,9 @@ if (isset($_SESSION['email'])) {
             echo "<tbody></table>";
         } else {
             echo '<p>Please login</p>';
+            echo '<img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo">';
+            echo '<img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"><hr/>';
+            echo '<img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787">';
         }
         ?>
     </main>
@@ -240,7 +243,7 @@ if (isset($_SESSION['email'])) {
                             <a href="./cookie-policy.php" class="text-reset">Cookie Policy</a>
                         </p>
                         <p>
-                            <a href="./contact.php" class="text-reset">Contact</a>
+                            <a href="./contact.php" class="text-reset">Help</a>
                         </p>
                     </div>
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">

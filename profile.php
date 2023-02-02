@@ -11,43 +11,43 @@ $pfpsrc = './assets/images/default-user-square.png';
 $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
 $stmt->execute([$_GET['id']]);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (count($rows) > 0) {
+    foreach ($rows as $test) {
+        if ($test['pfp'] != null) {
+            $pfpsrc = $test['pfp'];
+        }
+        $show_email = $test['show_email'];
+        $username = $test['username'];
+        $name = $test['name'];
+        $pfp = $pfpsrc;
+        $about = $test['about'];
+        $email = ($show_email === "True") ? $test['email'] : 'Hidden';
+    }
+} else {
+    echo "<p align='center' class='text-danger'>User not found</p>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/profile.css">
+    <title><?= (isset($name)) ? $username . " ($name)" : $username ?></title>
 </head>
 
 <body>
     <?php
-    if (count($rows) > 0) {
-        foreach ($rows as $test) {
-            if ($test['pfp'] != null) {
-                $pfpsrc = $test['pfp'];
-            }
-            $show_email = $test['show_email'];
-            $username = $test['username'];
-            $name = $test['name'];
-            $pfp = $pfpsrc;
-            $about = $test['about'];
-            $email = ($show_email === "True") ? $test['email'] : 'Hidden';
-        }
-    } else {
-        echo "<p align='center' class='text-danger'>User not found</p>";
-    }
+    include_once "navbar.php";
     ?>
+    <br />
     <div class="card" style="width: 18rem;margin: auto;">
         <img src="<?= $pfp ?>" height="280px" class="card-img-top" alt="User profile picture">
         <div class="card-body">
             <h5 class="card-title"><?= htmlentities($username) ?></h5>
-            <p class="card-text"><?= htmlentities($name)?></p>
+            <p class="card-text"><?= htmlentities($name) ?></p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><?= htmlentities($about)?></li>
+            <li class="list-group-item"><?= htmlentities($about) ?></li>
             <li class="list-group-item">Test random text</li>
             <li class="list-group-item">Test random text</li>
         </ul>
