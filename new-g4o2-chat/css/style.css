@@ -5,3 +5,7 @@ body {
 main {
     padding: 35px;
 }
+
+a {
+    text-decoration: none !important;
+}

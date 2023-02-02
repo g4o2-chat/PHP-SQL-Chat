@@ -1,7 +1,7 @@
 <?php
-require_once "head.php";
 require_once "pdo.php";
-/*
+require_once "head.php";
+
 if (isset($_SESSION['email'])) {
     $stmt = $pdo->query("SELECT * FROM account");
     $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,21 +23,18 @@ if (isset($_SESSION['email'])) {
     
     if ($user_status_log != null) {
         $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
-        $stmt->execute([$_SESSION['name'], date(DATE_RFC2822), $_SESSION['user_id']]);
+        $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
     } else {
         $stmt = $pdo->prepare('INSERT INTO user_status_log (user_id, account, last_active_date_time) VALUES (:usr, :acc, :date)');
         $stmt->execute(
             array(
                 ':usr' => $_SESSION['user_id'],
-                ':acc' => $_SESSION['name'],
+                ':acc' => $_SESSION['username'],
                 ':date' => date(DATE_RFC2822)
             )
         );
     }
-}*/
-$stmt = $pdo->query("SELECT * FROM account");
-$accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$pfpsrc_default = './assets/images/default-user-square.png';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,6 +101,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="background-color: #eee;">#</th>
+                        <th scope="col" style="background-color: #eee;">Username</th>
                         <th scope="col" style="background-color: #eee;">Name</th>
                         <th scope="col" style="background-color: #eee;">Email</th>
                         <th scope="col" style="background-color: #eee;">Last active</th>
@@ -151,27 +149,21 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                             $diff = "<p class=' text-success'>Online</p>";
                         }
                     }
-                    echo "<tr>
-                        <th scope='row'>";
+                    echo "<tr><th scope='row'>";
                     echo ($account['user_id']);
                     echo $pfp;
-                    echo ("</th>
-                        <td>");
-                    echo "<a href='./profile.php?user={$account[' user_id']}'>" . $account['name'] . "</a>";
-                    echo "
-                        <td>";
+                    echo ("</th><td>");
+                    echo "<a href='./profile.php?user={$account['user_id']}'>" . $account['username'] . "</a>";
+                    echo "</td><td>";
+                    echo "<p>" . $account['name'] . "</p>";
+                    echo "</td><td>";
                     echo ($account['show_email'] === "True") ? "<p class=''>" . $account['email'] . "</p>" : "<p class='text-warning'>Hidden</p>";
-                    echo ("</td>
-                        <td>");
+                    echo ("</td><td>");
                     echo $diff;
-                    echo ("</td>
-                    </tr>\n");
-                    echo ("</td>
-                    </tr>\n");
+                    echo ("</td></tr>\n");
+                    echo ("</td></tr>\n");
                 }
-                echo "
-                <tbody>
-            </table>";
+                echo "<tbody></table>";
             } else {
                 echo '<p>Please login</p>';
             }

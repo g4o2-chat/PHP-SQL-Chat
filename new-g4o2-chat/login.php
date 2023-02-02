@@ -14,7 +14,7 @@ if (isset($_POST["cancel"])) {
 }
 
 if (isset($_POST["email"]) && isset($_POST["pass"])) {
-    unset($SESSION["name"]);
+    unset($SESSION["username"]);
     unset($SESSION["user_id"]);
     session_destroy();
     session_start();
@@ -22,7 +22,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
     $check = hash("md5", $salt . $_POST["pass"]);
 
     $stmt = $pdo->prepare(
-        'SELECT user_id, name, email, disabled
+        'SELECT user_id, username, email, disabled
         FROM account
         WHERE
         email = :em AND
@@ -45,7 +45,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
             error_log("Login success " . $_POST['email'] . " " . $ip . " (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
         }
         $_SESSION["user_id"] = $row["user_id"];
-        $_SESSION["name"] = $row["name"];
+        $_SESSION["username"] = $row["username"];
         $_SESSION['email'] = $row['email'];
         $_SESSION["success"] = "Logged in.";
         header("Location: $url/index.php");

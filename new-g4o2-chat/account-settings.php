@@ -34,8 +34,8 @@ if (isset($_SESSION["email"])) {
 
 if (isset($_POST["submit"])) {
     if (!file_exists($_FILES['fileToUpload']['tmp_name']) || !is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
-        $stmta = $pdo->prepare("SELECT pfp FROM account WHERE name=?");
-        $stmta->execute([$_SESSION['name']]);
+        $stmta = $pdo->prepare("SELECT pfp FROM account WHERE user_id=?");
+        $stmta->execute([$_SESSION['user_id']]);
         $pfptemp = $stmta->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($pfptemp as $test) {
@@ -79,6 +79,7 @@ if (isset($_POST["submit"])) {
             }
 
             $sql = "UPDATE account SET pfp = :pfp, 
+            username = :newUsername,
             name = :newName,
             email = :email,
             password = :password,
@@ -89,6 +90,7 @@ if (isset($_POST["submit"])) {
             $stmt->execute(array(
                 ':pfp' => $base64,
                 ':usrid' => $_SESSION['user_id'],
+                ':newUsername' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['username']),
                 ':newName' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['name']),
                 ':email' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['email']),
                 ':password' => $hash,
@@ -172,8 +174,10 @@ if (isset($_POST["submit"])) {
 <body>
     <form class="form-signin" action="account-settings.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
-        Select image to upload for <?= $_SESSION['name'] ?>
+        Select image to upload for <?= $_SESSION['username'] ?>
         <input type="file" name="fileToUpload" id="fileToUpload">
+        <label for="name" class="sr-only">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= $response['username'] ?>">
         <label for="name" class="sr-only">Name</label>
         <input type="text" name="name" class="form-control" placeholder="" required="" autofocus="" value="<?= $response['name'] ?>">
         <label for="email" class="sr-only">Email</label>

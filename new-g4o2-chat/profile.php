@@ -7,7 +7,7 @@ if (!isset($_GET['id'])) {
     echo "<p align='center' class='text-danger'>Missing user parameter</p>";
     die();
 }
-$pfpsrc = './img/default-pfp.png';
+$pfpsrc = './assets/images/default-user-square.png';
 $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
 $stmt->execute([$_GET['id']]);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,23 +30,32 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $pfpsrc = $test['pfp'];
             }
             $show_email = $test['show_email'];
-            $user = "<div id='user-name'><p>{$test['name']}</p></div>";
-            $pfp = "<img id='profile-image' src='$pfpsrc'>";
-            $about = "<div id='user-about'><p>{$test['about']}</p></div>";
-            if ($show_email === "True") {
-                $email = "<div id='user-email'><p>{$test['email']}</p></div>";
-            } else {
-                $email = "<div id='user-email'><p>Hidden</p></div>";
-            }
+            $username = $test['username'];
+            $name = $test['name'];
+            $pfp = $pfpsrc;
+            $about = $test['about'];
+            $email = ($show_email === "True") ? $test['email'] : 'Hidden';
         }
-        echo $pfp;
-        echo $user;
-        echo $about;
-        echo $email;
     } else {
-        echo "<p style='font-size: 22px;font-family: Arial;text-align:center;color:red;'>User not found</p>";
+        echo "<p align='center' class='text-danger'>User not found</p>";
     }
     ?>
+    <div class="card" style="width: 18rem;margin: auto;">
+        <img src="<?= $pfp ?>" height="280px" class="card-img-top" alt="User profile picture">
+        <div class="card-body">
+            <h5 class="card-title"><?= $username ?></h5>
+            <p class="card-text"><?=$name?></p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><?= htmlentities($about)?></li>
+            <li class="list-group-item">Test random text</li>
+            <li class="list-group-item">Test random text</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">Link</a>
+            <a href="#" class="card-link">Link</a>
+        </div>
+    </div>
 </body>
 
 </html>

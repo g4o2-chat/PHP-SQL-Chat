@@ -33,7 +33,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $show_email = $test['show_email'];
                 $user = "<div id='user-name'><p>{$test['name']}</p></div>";
                 $pfp = "<img id='profile-image' src='$pfpsrc'>";
-                $about = "<div id='user-about'><p>{$test['about']}</p></div>";
+                $about = "<div id='user-about'><p>".htmlentities($test['about'])."</p></div>";
                 if ($show_email === "True") {
                     $email = "<div id='user-email'><p>{$test['email']}</p></div>";
                 } else {
