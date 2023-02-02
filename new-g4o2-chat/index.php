@@ -115,7 +115,7 @@ if (isset($_SESSION['email'])) {
                         $pfpsrc = $pfpsrc_default;
                     }
 
-                    $pfp = "<a class='pfp-link' href='./profile.php?user={$account[' user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
+                    $pfp = "<a class='pfp-link' href='./profile.php?id={$account['user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
 
                     $statement = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
                     $statement->execute(array(':usr' => $account['user_id']));
@@ -153,11 +153,11 @@ if (isset($_SESSION['email'])) {
                     echo ($account['user_id']);
                     echo $pfp;
                     echo ("</th><td>");
-                    echo "<a href='./profile.php?user={$account['user_id']}'>" . $account['username'] . "</a>";
+                    echo "<a href='./profile.php?id={$account['user_id']}'>" . htmlentities($account['username']) . "</a>";
                     echo "</td><td>";
-                    echo "<p>" . $account['name'] . "</p>";
+                    echo "<p>".htmlentities($account['name']) . "</p>";
                     echo "</td><td>";
-                    echo ($account['show_email'] === "True") ? "<p class=''>" . $account['email'] . "</p>" : "<p class='text-warning'>Hidden</p>";
+                    echo ($account['show_email'] === "True") ? "<p class=''>" . htmlentities($account['email']) . "</p>" : "<p class='text-warning'>Hidden</p>";
                     echo ("</td><td>");
                     echo $diff;
                     echo ("</td></tr>\n");

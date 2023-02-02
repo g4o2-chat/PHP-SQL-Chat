@@ -90,11 +90,11 @@ if (isset($_POST["submit"])) {
             $stmt->execute(array(
                 ':pfp' => $base64,
                 ':usrid' => $_SESSION['user_id'],
-                ':newUsername' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['username']),
-                ':newName' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['name']),
-                ':email' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['email']),
+                ':newUsername' => $_POST['username'],
+                ':newName' => $_POST['name'],
+                ':email' => $_POST['email'],
                 ':password' => $hash,
-                ':about' => str_replace('<', ' ¯\_(ツ)_/¯ ', $_POST['about']),
+                ':about' => $_POST['about'],
                 ':showEmail' => $show_email
             ));
             $_SESSION['success'] = 'Account details updated.';
@@ -177,13 +177,13 @@ if (isset($_POST["submit"])) {
         Select image to upload for <?= $_SESSION['username'] ?>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <label for="name" class="sr-only">Username</label>
-        <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= $response['username'] ?>">
+        <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($response['username']) ?>">
         <label for="name" class="sr-only">Name</label>
-        <input type="text" name="name" class="form-control" placeholder="" required="" autofocus="" value="<?= $response['name'] ?>">
+        <input type="text" name="name" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($response['name']) ?>">
         <label for="email" class="sr-only">Email</label>
-        <input type="email" name="email" class="form-control" placeholder="" required="" value="<?= $response['email'] ?>">
+        <input type="email" name="email" class="form-control" placeholder="" required="" value="<?= htmlentities($response['email']) ?>">
         <label for="about" class="sr-only">About</label>
-        <input type="text" name="about" class="form-control" placeholder="" required="" value="<?= $response['about'] ?>">
+        <input type="text" name="about" class="form-control" placeholder="" required="" value="<?= htmlentities($response['about']) ?>">
         <label for="password" class="sr-only">New Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required="">
         <div class="checkbox mb-3">

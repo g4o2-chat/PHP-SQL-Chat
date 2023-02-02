@@ -43,8 +43,8 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="card" style="width: 18rem;margin: auto;">
         <img src="<?= $pfp ?>" height="280px" class="card-img-top" alt="User profile picture">
         <div class="card-body">
-            <h5 class="card-title"><?= $username ?></h5>
-            <p class="card-text"><?=$name?></p>
+            <h5 class="card-title"><?= htmlentities($username) ?></h5>
+            <p class="card-text"><?= htmlentities($name)?></p>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><?= htmlentities($about)?></li>
