@@ -1,6 +1,4 @@
 <?php
-session_start();
-ob_start();
 require_once "pdo.php";
 require_once "head.php";
 
@@ -16,7 +14,7 @@ if (isset($_POST["cancel"])) {
 }
 
 if (isset($_POST["email"]) && isset($_POST["pass"])) {
-    unset($SESSION["name"]);
+    unset($SESSION["username"]);
     unset($SESSION["user_id"]);
     session_destroy();
     session_start();
@@ -24,7 +22,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
     $check = hash("md5", $salt . $_POST["pass"]);
 
     $stmt = $pdo->prepare(
-        'SELECT user_id, name, email, disabled
+        'SELECT user_id, username, email, disabled
         FROM account
         WHERE
         email = :em AND
@@ -47,7 +45,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
             error_log("Login success " . $_POST['email'] . " " . $ip . " (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
         }
         $_SESSION["user_id"] = $row["user_id"];
-        $_SESSION["name"] = $row["name"];
+        $_SESSION["username"] = $row["username"];
         $_SESSION['email'] = $row['email'];
         $_SESSION["success"] = "Logged in.";
         header("Location: $url/index.php");
@@ -61,55 +59,104 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="./css/login.css?v=<?php echo time(); ?>">
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #fff !important;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
 </head>
 
-<body>
-    <div id="particles-js"></div>
-    <div class="center">
-        <h1>Login to g4o2</h1>
-        <?php
-        if (isset($_SESSION["error"])) {
-            echo ('<p style="color: red;">' . htmlentities($_SESSION["error"]) . "</p>");
-            unset($_SESSION["error"]);
-        }
-        if (isset($_SESSION["success"])) {
-            echo ('<p style="color: green">' . htmlentities($_SESSION["success"]) . "</p>");
-            unset($_SESSION["success"]);
-        }
-        ?>
-        <form method="post">
-            <div class="input-field">
-                <input class="input" type="text" name="email" id="id_email" required>
-                <span></span>
-                <label for='email'>Email</label>
-            </div>
-            <div class="input-field">
-                <input class="input" type="password" name="pass" id="id_1723" required>
-                <span></span>
-                <label for='pass'>Password</label>
-            </div>
-            <div class="forgot-password">Forgot Password</div>
-            <div style="text-align:center">
-                <input id="submit" type="submit" onclick="return doValidate();" value="Login">
-            </div>
-            <div class="sign-up">
-                Don't have an account yet? <a href='./signup.php'>register</a>
-            </div>
-            <!-- <input id="cancel" class="btn" type="submit" name="cancel" value="Cancel"> -->
-        </form>
-        <!-- <p style='text-align: center;color:red;'>Try the password 'password' if you can't login</p> -->
-    </div>
+<body class="text-center">
+    <form class="form-signin" method="post">
+        <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <p>
+            <?php
+            if (isset($_SESSION["error"])) {
+                echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+                unset($_SESSION["error"]);
+            }
+            if (isset($_SESSION["success"])) {
+                echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+                unset($_SESSION["success"]);
+            }
+            ?>
+        </p>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="id_email" class="form-control" name="email" placeholder="Email address" required="" autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="id_pass" class="form-control" name="pass" placeholder="Password" required="">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return doValidate();">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">© <?= date("Y") ?></p>
+        <p>Don't have an account yet? <a href='./signup.php'>register</a></p>
+    </form>
     <script>
         function doValidate() {
             console.log("Validating...");
             try {
                 email = document.getElementById("id_email").value;
-                pw = document.getElementById("id_1723").value;
+                pw = document.getElementById("id_pass").value;
                 console.log("Validating email=" + email);
                 console.log("Validating pw=" + pw);
                 if (pw == null || pw == "" || email == null || email == "") {
@@ -126,9 +173,6 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
             }
             return false;
         }
-        particlesJS.load('particles-js', './particles/particles.json', function() {
-            console.log('callback - particles.js config loaded');
-        });
     </script>
 </body>
 
