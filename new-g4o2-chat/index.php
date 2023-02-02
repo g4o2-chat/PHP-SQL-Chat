@@ -70,36 +70,46 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Chat</a></li>
-                            <li><a class="dropdown-item" href="#">User Profile</a></li>
+                            <li><a class="dropdown-item" href="./profile.php?id=<?=$_SESSION['user_id']?>">User Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                            <li><a class="dropdown-item" href="./account-settings.php">Account Settings</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled">Private Messaging (coming soon)</a>
                     </li>
                 </ul>
-               <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
+                <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
             </div>
         </div>
     </nav>
     <main>
         <div class="w-75 p-2" style="background-color: #eee;margin: auto;">
             <?php
+            if (isset($_SESSION["error"])) {
+                echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+                unset($_SESSION["error"]);
+            }
+            if (isset($_SESSION["success"])) {
+                echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+                unset($_SESSION["success"]);
+            }
+
             if (isset($_SESSION['user_id'])) {
+                echo 'User ID ' . $_SESSION['user_id'];
                 echo '
             <table class="table table-light table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" style="background-color: #eee;">#</th>
-                    <th scope="col" style="background-color: #eee;">Name</th>
-                    <th scope="col" style="background-color: #eee;">Email</th>
-                    <th scope="col" style="background-color: #eee;">Last active</th>
-                </tr>
-            </thead>
-            <tbody>';
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" style="background-color: #eee;">#</th>
+                        <th scope="col" style="background-color: #eee;">Name</th>
+                        <th scope="col" style="background-color: #eee;">Email</th>
+                        <th scope="col" style="background-color: #eee;">Last active</th>
+                    </tr>
+                </thead>
+                <tbody>';
                 foreach ($accounts as $account) {
                     if ($account['pfp'] != null) {
                         $pfpsrc = $account['pfp'];
@@ -107,7 +117,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                         $pfpsrc = $pfpsrc_default;
                     }
 
-                    $pfp = "<a class='pfp-link' href='./profile.php?user={$account['user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
+                    $pfp = "<a class='pfp-link' href='./profile.php?user={$account[' user_id']}'><img style='border-radius: 100px; margin-left: 10px; ' height='20px' width='20px' src='$pfpsrc'></a>";
 
                     $statement = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
                     $statement->execute(array(':usr' => $account['user_id']));
@@ -115,11 +125,11 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                     $userStatus = ($user_status_log != null) ? $user_status_log['last_active_date_time'] : "Undefined";;
 
                     if ($userStatus === "Undefined") {
-                        $diff = "<p class='text-danger'>Null</p>";
+                        $diff = "<p class='text-danger'>Undefined</p>";
                     } else {
-                        $last_online    = $userStatus;
+                        $last_online = $userStatus;
                         $current_date_time = date(DATE_RFC2822);
-                        $last_online     = new DateTime($last_online);
+                        $last_online = new DateTime($last_online);
                         $current_date_time = new DateTime($current_date_time);
 
                         $diff = $current_date_time->diff($last_online)->format("last online %a days %h hours and %i minutes ago");
@@ -130,31 +140,38 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                         } elseif ($exploded[4] == "1") {
                             $diff = "<p class='text-warning''>$exploded[4]&nbsp;hour&nbsp;ago</p>";
                         } elseif ($exploded[7] == "1") {
-                            $diff = "<p class='text-warning''>$exploded[7]&nbsp;minute&nbsp;ago</p>";
+                            $diff = "<p class=' text-warning''>$exploded[7]&nbsp;minute&nbsp;ago</p>";
                         } elseif ($exploded[2] !== "0") {
                             $diff = "<p class='text-warning''>$exploded[2]&nbsp;days&nbsp;ago</p>";
                         } elseif ($exploded[4] !== "0") {
-                            $diff = "<p class='text-warning''>$exploded[4]&nbsp;hours&nbsp;ago</p>";
+                            $diff = "<p class=' text-warning''>$exploded[4]&nbsp;hours&nbsp;ago</p>";
                         } elseif ($exploded[7] !== "0") {
                             $diff = "<p class='text-warning''>$exploded[7]&nbsp;minutes&nbsp;ago</p>";
                         } else {
-                            $diff = "<p class='text-success'>Online</p>";
+                            $diff = "<p class=' text-success'>Online</p>";
                         }
                     }
-                    echo "<tr><th scope='row'>";
+                    echo "<tr>
+                        <th scope='row'>";
                     echo ($account['user_id']);
                     echo $pfp;
-                    echo ("</th><td>");
-                    echo "<a href='./profile.php?user={$account['user_id']}' >" . $account['name'] . "</a>";
-                    echo "<td>";
+                    echo ("</th>
+                        <td>");
+                    echo "<a href='./profile.php?user={$account[' user_id']}'>" . $account['name'] . "</a>";
+                    echo "
+                        <td>";
                     echo ($account['show_email'] === "True") ? "<p class=''>" . $account['email'] . "</p>" : "<p class='text-warning'>Hidden</p>";
-                    echo ("</td><td>");
+                    echo ("</td>
+                        <td>");
                     echo $diff;
-                    echo ("</td></tr>\n");
-                    echo ("</td></tr>\n");
+                    echo ("</td>
+                    </tr>\n");
+                    echo ("</td>
+                    </tr>\n");
                 }
-                echo "<tbody></table>";
-                echo $_SESSION['user_id'];
+                echo "
+                <tbody>
+            </table>";
             } else {
                 echo '<p>Please login</p>';
             }
@@ -215,7 +232,7 @@ $pfpsrc_default = './assets/images/default-user-square.png';
                             <a href="#" class="text-reset">Users</a>
                         </p>
                         <p>
-                            <a href="#" class="text-reset">Profile</a>
+                            <a href="./profile.php" class="text-reset">Profile</a>
                         </p>
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
