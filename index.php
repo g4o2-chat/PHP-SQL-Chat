@@ -220,10 +220,10 @@ if (isset($_SESSION['email'])) {
                             <a href="./index.php" class="text-reset">Home</a>
                         </p>
                         <p>
-                            <a href="#" class="text-reset">Chat</a>
+                            <a href="./chat.php" class="text-reset">Chat</a>
                         </p>
                         <p>
-                            <a href="#" class="text-reset">Users</a>
+                            <a href="./index.php" class="text-reset">Users</a>
                         </p>
                         <p>
                             <a href="./profile.php" class="text-reset">Profile</a>
