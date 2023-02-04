@@ -2,7 +2,7 @@
 session_start();
 ob_start();
 ini_set('display_errors', 0);
-/*
+
 $HOST = 'sql12.freemysqlhosting.net';
 $PORT = 3306;
 $DB_NAME = 'sql12561191';
@@ -14,8 +14,8 @@ $pdo = new PDO(
     $DB_PASSWORD
 );
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-*/
 
+/*
 $HOST = 'localhost';
 $PORT = 3306;
 $DB_NAME = 'g4o2-chat';
@@ -27,3 +27,4 @@ $pdo = new PDO(
     $DB_PASSWORD
 );
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+*/
