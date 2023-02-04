@@ -83,7 +83,7 @@ if (isset($_SESSION['email'])) {
         </div>
     </nav>
     <!-- <div class="w-75 p-2" style="background-color: #eee;margin: auto;"> -->
-    <main>
+    <main class="table-responsive">
         <?php
         if (isset($_SESSION["error"])) {
             echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
@@ -97,7 +97,7 @@ if (isset($_SESSION['email'])) {
         if (isset($_SESSION['user_id'])) {
             echo 'User ID ' . $_SESSION['user_id'];
             echo '
-            <table class="table table-light table-hover">
+            <table class="table table-light table-bordered table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="background-color: #eee;">#</th>
@@ -149,7 +149,8 @@ if (isset($_SESSION['email'])) {
                         $diff = "<p class=' text-success'>Online</p>";
                     }
                 }
-                echo "<tr><th scope='row'>";
+                echo ($_SESSION['user_id'] == $account['user_id']) ? "<tr class='table-success'>" : "<tr>";
+                echo "<th scope='row'>";
                 echo ($account['user_id']);
                 echo $pfp;
                 echo ("</th><td>");
