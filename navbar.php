@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark  fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+<nav class="navbar navbar-dark  fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark" style="margin-bottom: 1000px;">
     <div class="container-fluid">
         <a class="navbar-brand" href="./index.php">
             <img src="./favicon.ico" alt="Logo" width="28" height="28" class="d-inline-block align-text-top">
@@ -21,18 +21,31 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="./chat.php">Chat</a></li>
-                        <li><a class="dropdown-item" href="./profile.php?id=<?= $_SESSION['user_id'] ?>">User Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="./account-settings.php">Account Settings</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled">Private Messaging</a>
                 </li>
             </ul>
-            <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
+
+            <div id="nav-item">
+                <?= isset($_SESSION['user_id']) ? "
+                <div class='dropdown show' style='display:inline-block'>
+                    <a href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <img id='navbar-user-pfp' src='" . $userpfp . "' alt='" . $_SESSION['username'] . "'>
+                    </a>
+                    <ul class='dropdown-menu dropdown-menu-end'>
+                        <li><a class='dropdown-item' href='./profile.php?id=" . $_SESSION['user_id'] . "'>User Profile</a></li>
+                        <li>
+                            <hr class='dropdown-divider'>
+                        </li>
+                        <li><a class='dropdown-item' href='./account-settings.php'>Account Settings</a></li>
+                    </ul>
+                </div>'"
+                    : '' ?>
+
+                <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
+            </div>
         </div>
     </div>
 </nav>

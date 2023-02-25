@@ -10,23 +10,15 @@ if (!isset($_SESSION["email"])) {
     header("refresh:3;url=login.php");
     die();
 }
-if ($_SESSION['email'] == 'guest@guest.com') {
-    echo "<p align='center'>LOGGED IN AS GUEST ACCOUNT</p>";
-    echo "<p align='center'>EDIT ACCOUNT DETAILS NOT ALLOWED</p>";
-    echo "<br />";
-    echo "<p align='center'>Redirecting in 3 seconds</p>";
-    header("refresh:3;url=index.php");
-    die();
-}
 
 if (isset($_SESSION["email"])) {
-    $statement = $pdo->prepare("SELECT * FROM account where user_Id = :usr");
-    $statement->execute(array(':usr' => $_SESSION['user_id']));
-    $response = $statement->fetch();
-    $pfpsrc_default = './img/default-pfp.png';
+    $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $pfpsrc_default = './assets/images/default-user-square.png';
 
-    if ($response['pfp'] != null) {
-        $userpfp = $response['pfp'];
+    if ($user[0]['pfp'] != null) {
+        $userpfp = $user[0]['pfp'];
     } else {
         $userpfp = $pfpsrc_default;
     }
@@ -75,19 +67,19 @@ if (isset($_POST["submit"])) {
             } else {
                 $usernameCheck = false;
             }
-            if($usernameCheck != false) {
-            if (isset($_POST['password'])) {
-                $salt = getenv('SALT');
-                $newPassword = $_POST['password'];
-                $hash = hash("md5", $salt . $newPassword);
-            }
-            if ($_POST["show_email"] == "on") {
-                $show_email = "True";
-            } else {
-                $show_email = "False";
-            }
+            if ($usernameCheck != false) {
+                if (isset($_POST['password'])) {
+                    $salt = getenv('SALT');
+                    $newPassword = $_POST['password'];
+                    $hash = hash("md5", $salt . $newPassword);
+                }
+                if ($_POST["show_email"] == "on") {
+                    $show_email = "True";
+                } else {
+                    $show_email = "False";
+                }
 
-            $sql = "UPDATE account SET pfp = :pfp, 
+                $sql = "UPDATE account SET pfp = :pfp, 
             username = :newUsername,
             name = :newName,
             email = :email,
@@ -95,18 +87,18 @@ if (isset($_POST["submit"])) {
             about = :about,
             show_email = :showEmail
             WHERE user_id = :usrid";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute(array(
-                ':pfp' => $base64,
-                ':usrid' => $_SESSION['user_id'],
-                ':newUsername' => $_POST['username'],
-                ':newName' => $_POST['name'],
-                ':email' => $_POST['email'],
-                ':password' => $hash,
-                ':about' => $_POST['about'],
-                ':showEmail' => $show_email
-            ));
-            $_SESSION['success'] = 'Account details updated.';
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(array(
+                    ':pfp' => $base64,
+                    ':usrid' => $_SESSION['user_id'],
+                    ':newUsername' => $_POST['username'],
+                    ':newName' => $_POST['name'],
+                    ':email' => $_POST['email'],
+                    ':password' => $hash,
+                    ':about' => $_POST['about'],
+                    ':showEmail' => $show_email
+                ));
+                $_SESSION['success'] = 'Account details updated.';
             } else {
                 $_SESSION['error'] = 'Username taken';
             }
@@ -184,30 +176,34 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <form class="form-signin" action="account-settings.php" method="post" enctype="multipart/form-data" autocomplete="off">
-        <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
-        Select image to upload for <?=htmlentities($_SESSION['username']) ?>
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <label for="name" class="sr-only">Username</label>
-        <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($response['username']) ?>">
-        <label for="name" class="sr-only">Name</label>
-        <input type="text" name="name" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($response['name']) ?>">
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" name="email" class="form-control" placeholder="" required="" value="<?= htmlentities($response['email']) ?>">
-        <label for="about" class="sr-only">About</label>
-        <input type="text" name="about" class="form-control" placeholder="" required="" value="<?= htmlentities($response['about']) ?>">
-        <label for="password" class="sr-only">New Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password" required="">
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="show_email" <?php echo ($response['show_email'] == 'True') ? 'checked' : '' ?>> Show Email
-            </label>
-        </div>
-        <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Save Changes">
-        <br />
-        <a href="./index.php">Cancel</a> | <a href="./delete-account.php">Delete Account</a>
-    </form>
-    </div>
+    <?php
+    require_once "navbar.php";
+    ?>
+    <main style="padding-top: 100px;">
+        <form class="form-signin" action="account-settings.php" method="post" enctype="multipart/form-data" autocomplete="off">
+            <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
+            Select image to upload for <?= htmlentities($_SESSION['username']) ?>
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <label for="name" class="sr-only">Username</label>
+            <input type="text" name="username" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($user[0]['username']) ?>">
+            <label for="name" class="sr-only">Name</label>
+            <input type="text" name="name" class="form-control" placeholder="" required="" autofocus="" value="<?= htmlentities($user[0]['name']) ?>">
+            <label for="email" class="sr-only">Email</label>
+            <input type="email" name="email" class="form-control" placeholder="" required="" value="<?= htmlentities($user[0]['email']) ?>">
+            <label for="about" class="sr-only">About</label>
+            <input type="text" name="about" class="form-control" placeholder="" required="" value="<?= htmlentities($user[0]['about']) ?>">
+            <label for="password" class="sr-only">New Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password" required="">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="show_email" <?php echo ($user[0]['show_email'] == 'True') ? 'checked' : '' ?>> Show Email
+                </label>
+            </div>
+            <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Save Changes">
+            <br />
+            <a href="./index.php">Cancel</a> | <a href="./delete-account.php">Delete Account</a>
+        </form>
+    </main>
 </body>
 
 </html>
