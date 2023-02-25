@@ -16,7 +16,8 @@
         padding-left: 16px;
         border-radius: 8px;
         height: 45vh;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         margin-left: 5px;
         border-radius: 10px;
         padding: 10px 0px 0px 30px;
@@ -168,11 +169,13 @@
     }
 
     #submit {
-        background-color: rgb(1, 1, 120);
+        background-color: #ffa500;
+        color: #000;
     }
 
     #submit:hover {
-        background-color: transparent;
+        background-color: #fff;
+        color: #000;
     }
 
     #logout {
@@ -180,7 +183,8 @@
     }
 
     #logout:hover {
-        background-color: transparent;
+        background-color: #fff;
+        color: #000;
     }
 
     .button {

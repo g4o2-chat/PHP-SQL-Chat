@@ -22,7 +22,7 @@ if (isset($_POST['logout'])) {
   return;
 }
 
-if (isset($_POST['message'])) {
+if (isset($_POST['message']) && $_POST['account'] == $_SEESION['username']) {
   $stmta = $pdo->prepare(
     'INSERT INTO chatlog
   (message, message_date, account)
@@ -70,7 +70,6 @@ if (isset($_POST['message'])) {
     <section style="overflow: auto;" id="guide">
       <p>Press <kbd>Enter</kbd> to submit message</p>
       <p>Press <kbd>/</kbd> to select <kbd>Esc</kbd> to deselect</p>
-      <p>Users can now upload profile pictures via the edit account button on the <a href="./index.php">index</a> page</p>
     </section>
   </section>
   <section>
@@ -268,22 +267,7 @@ if (isset($_POST['message'])) {
     $pfp = "<a class='pfp-link' href='./profile.php?user={$test['name']}'><img class='profile-image' style='border-radius: 100px;height: 60px;width:60px;'' src='$pfpsrc'></a>";
     $main = "<p style='margin-top: 20px;font-size: 20px;font-family: monospace;'>{$_SESSION['name']}</p><p style='font-family: monospace;'>{$_SESSION['email']}</p>";
     $actions = '<a href="edit-account.php">Edit Account</a> | <a href="logout.php">Logout</a>';
-    //echo "<div style='border-radius: 12px;' id='profile'><button id='close-btn' onclick='closeProfile()' style='border:none;position:absolute;top:0;left:0;font-size: 18px;padding:5px 12px 5px 12px;'>&times;</button>{$pfp}{$main}{$actions}</div>";
-    //echo "<button id='close-btn-two' onclick='openProfile()' style='border:none;position:absolute;top:10px;right:10px;font-size: 18px;padding:5px 12px 5px 12px;opacity: 0;'>&#9776;</button>";
   }
   ?>
-  <script>
-    /*
-    function closeProfile() {
-      document.getElementById("profile").style.opacity = '0';
-      document.getElementById("close-btn").style.opacity = '0';
-      document.getElementById("close-btn-two").style.opacity = '1';
-    }
-
-    function openProfile() {
-      document.getElementById("profile").style.opacity = '1';
-      document.getElementById("close-btn").style.opacity = '1';
-      document.getElementById("close-btn-two").style.opacity = '0';
-    }*/
   </script>
 </body>
