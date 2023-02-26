@@ -1,6 +1,7 @@
 <?php
 require_once "pdo.php";
-date_default_timezone_set('UTC');
+// date_default_timezone_set('UTC');
+date_default_timezone_set('Asia/Taipei');
 
 if (!isset($_SESSION["email"])) {
   include 'head.php';
@@ -22,18 +23,19 @@ if (isset($_POST['logout'])) {
   return;
 }
 
-if (isset($_POST['message']) && $_POST['account'] == $_SEESION['username']) {
+if (isset($_POST['message'])) {
   $stmta = $pdo->prepare(
     'INSERT INTO chatlog
-  (message, message_date, account)
-  VALUES (:msg, :msgd, :acc)'
+  (message, message_date, account, user_id)
+  VALUES (:msg, :msgd, :acc, :usrid)'
   );
 
   $stmta->execute(
     array(
       ':msg' => $_POST['message'],
       ':msgd' => date(DATE_RFC2822),
-      ':acc' => $_SESSION['name']
+      ':acc' => $_SESSION['username'],
+      ':usrid' => $_SESSION['user_id']
     )
   );
   $stmt = $pdo->query(
@@ -87,10 +89,10 @@ if (isset($_POST['message']) && $_POST['account'] == $_SEESION['username']) {
           echo "<p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>";
           foreach ($rows as $row) {
             $pfpsrc = './assets/images/default-user-round.png';
-            $user = "<a href='./profile.php?user={$row['account']}' class='account rainbow_text_animated'>" . $row['account'] . "</a>";
+            $user = "<a href='./profile.php?id={$row['user_id']}' class='account rainbow_text_animated'>" . $row['account'] . "</a>";
 
-            $stmta = $pdo->prepare("SELECT pfp FROM account WHERE name=?");
-            $stmta->execute([$row['account']]);
+            $stmta = $pdo->prepare("SELECT pfp FROM account WHERE user_id=?");
+            $stmta->execute([$row['user_id']]);
             $pfptemp = $stmta->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($pfptemp as $test) {
@@ -98,19 +100,17 @@ if (isset($_POST['message']) && $_POST['account'] == $_SEESION['username']) {
                 $pfpsrc = $test['pfp'];
               }
             }
-            $pfp = "<a class='pfp-link' href='./profile.php?user={$row['account']}'><img class='profile-image' src='$pfpsrc'></a>";
+            $pfp = "<a class='pfp-link' href='./profile.php?id={$row['user_id']}'><img class='profile-image' src='$pfpsrc'></a>";
 
 
             $message = htmlentities($row["message"]);
             if (isset($_COOKIE['timezone'])) {
-
-              //might break the chat 
+ 
               $timezone_offset_minutes = $_COOKIE['timezone'];
               $time = new DateTime($row["message_date"]);
               $minutes_to_add = ($timezone_offset_minutes);
               $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
               $stamp = $time->format('D, d M Y H:i:s');
-              // here ^
 
             } else {
               $stamp = $row["message_date"];

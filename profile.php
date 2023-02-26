@@ -1,7 +1,6 @@
 <?php
 require_once "pdo.php";
 require_once "head.php";
-date_default_timezone_set('Aisa/Taipei');
 
 if (!isset($_GET['id'])) {
     echo "<p align='center' class='text-danger'>Missing user parameter</p>";

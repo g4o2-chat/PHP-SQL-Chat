@@ -60,6 +60,8 @@ if (isset($_SESSION['email'])) {
         }
 
         if (isset($_SESSION['user_id'])) {
+            echo "logged in";
+            
             echo 'User ID ' . $_SESSION['user_id'];
             echo '
             <table class="table table-light table-bordered table-hover">
