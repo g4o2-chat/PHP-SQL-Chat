@@ -6,7 +6,7 @@ if (!isset($_GET['id'])) {
     echo "<p align='center' class='text-danger'>Missing user parameter</p>";
     die();
 }
-$pfpsrc = './assets/images/default-user-square.png';
+$userpfp = './assets/images/default-user-square.png';
 $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
 $stmt->execute([$_GET['id']]);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -14,12 +14,12 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if (count($rows) > 0) {
     foreach ($rows as $test) {
         if ($test['pfp'] != null) {
-            $pfpsrc = $test['pfp'];
+            $userpfp = $test['pfp'];
         }
         $show_email = $test['show_email'];
         $username = $test['username'];
         $name = $test['name'];
-        $pfp = $pfpsrc;
+        $pfp = $userpfp;
         $about = $test['about'];
         $email = ($show_email === "True") ? $test['email'] : 'Hidden';
     }

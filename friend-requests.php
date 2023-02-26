@@ -20,6 +20,8 @@ if (isset($_SESSION['email'])) {
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $pfpsrc_default = './assets/images/default-user-square.png';
+
     if ($user[0]['pfp'] != null) {
         $userpfp = $user[0]['pfp'];
     } else {

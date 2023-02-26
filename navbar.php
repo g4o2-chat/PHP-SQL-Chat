@@ -21,6 +21,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="./chat.php">Chat</a></li>
+                        <li><a class="dropdown-item" href="./users.php">Users</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -34,8 +35,9 @@
                     <a href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
                         <img id='navbar-user-pfp' src='" . $userpfp . "' alt='" . $_SESSION['username'] . "'>
                     </a>
-                    <ul class='dropdown-menu dropdown-menu-end'>
+                    <ul class='dropdown-menu dropdown-menu-end' style='right: 0; left: auto;'>
                         <li><a class='dropdown-item' href='./profile.php?id=" . $_SESSION['user_id'] . "'>User Profile</a></li>
+                        <li><a class='dropdown-item' href='./friend-requests.php'>Friend Requests</a></li>
                         <li>
                             <hr class='dropdown-divider'>
                         </li>

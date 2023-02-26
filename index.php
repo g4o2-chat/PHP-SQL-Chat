@@ -60,10 +60,10 @@ if (isset($_SESSION['email'])) {
         }
 
         if (isset($_SESSION['user_id'])) {
-            echo "logged in";
+            echo "<p>Logged in</p><br/>";
             
-            echo 'User ID ' . $_SESSION['user_id'];
-            echo '
+            echo '<p>User ID ' . $_SESSION['user_id']."</p>";
+            /*echo '
             <table class="table table-light table-bordered table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -131,13 +131,13 @@ if (isset($_SESSION['email'])) {
                 echo ("</td></tr>\n");
                 echo ("</td></tr>\n");
             }
-            echo "<tbody></table>";
+            echo "<tbody></table>";*/
         } else {
             echo '<p>Please <a class="btn btn-outline-success" href="./login.php">Login</a></p>';
-            echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
-            echo '<a href="https://github.com/g4o2/g4o2" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"></a><hr/>';
-            echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
         }
+        echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
+        echo '<a href="https://github.com/g4o2/g4o2" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"></a><hr/>';
+        echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
         ?>
     </main>
     <footer class="text-center text-lg-start bg-light text-muted">

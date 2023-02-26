@@ -112,18 +112,18 @@ if (isset($_POST["submit"])) {
 <form class="form-signin" method="post" action="./signup.php" enctype="multipart/form-data">
     <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Signup</h1>
-        <?php
-        if (isset($_SESSION["error"])) {
-            echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
-            unset($_SESSION["error"]);
-        }
-        if (isset($_SESSION["success"])) {
-            echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
-            unset($_SESSION["success"]);
-        }
-        ?>
+    <?php
+    if (isset($_SESSION["error"])) {
+        echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+        unset($_SESSION["error"]);
+    }
+    if (isset($_SESSION["success"])) {
+        echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+        unset($_SESSION["success"]);
+    }
+    ?>
     <label for="username" class="sr-only">Username</label>
-    <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" maxlength=128>
+    <input id="username" type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" maxlength=128>
     <label for="" class="sr-only">Email</label>
     <input type="email" id="id_email" class="form-control" name="email" placeholder="Email address" required="">
     <label for="inputPassword" class="sr-only">Password</label>
@@ -141,11 +141,24 @@ if (isset($_POST["submit"])) {
 
 <script src="./particles/particles.js"></script>
 <script>
+    document.getElementById('username').onkeydown = function(e) {
+        var value = e.target.value;
+        if (!e.key.match(/[a-zA-Z0-9_]/) || (e.key == '_' && value[value.length - 1] == '_')) {
+            e.preventDefault();
+        }
+    };
+
+    document.getElementById('username').addEventListener("paste", (event) => {
+        event.preventDefault();
+    })
+
     function doValidate() {
         console.log("Validating...");
         try {
             email = document.getElementById("id_email").value;
             pw = document.getElementById("id_1723").value;
+            username = document.getElementById("username").value;
+
             console.log("Validating email=" + email);
             console.log("Validating pw=" + pw);
             if (pw == null || pw == "" || email == null || email == "") {
@@ -154,6 +167,11 @@ if (isset($_POST["submit"])) {
             }
             if (email.search("@") === -1) {
                 alert("Email address must contain @");
+                return false;
+            }
+            if (username.match(/[^a-zA-Z0-9_]+/g)) {
+                alert("Username must consist of only characters, numbers, and underscore")
+                username.value = "";
                 return false;
             }
             return true;
