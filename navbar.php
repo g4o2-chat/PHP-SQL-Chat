@@ -28,9 +28,9 @@
                     <a class="nav-link disabled">Private Messaging</a>
                 </li>
             </ul>
-
-            <div id="nav-item">
-                <?= isset($_SESSION['user_id']) ? "
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <?= isset($_SESSION['user_id']) ? "
                 <div class='dropdown show' style='display:inline-block'>
                     <a href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
                         <img id='navbar-user-pfp' src='" . $userpfp . "' alt='" . $_SESSION['username'] . "'>
@@ -44,10 +44,11 @@
                         <li><a class='dropdown-item' href='./account-settings.php'>Account Settings</a></li>
                     </ul>
                 </div>'"
-                    : '' ?>
+                        : '' ?>
 
-                <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
-            </div>
+                </li>
+            </ul>
+            <?= isset($_SESSION['user_id']) ? '<a class="btn btn-outline-success" href="./logout.php">Logout</a>' : '<a class="btn btn-outline-success" href="./login.php">Login</a>' ?>
         </div>
     </div>
 </nav>
