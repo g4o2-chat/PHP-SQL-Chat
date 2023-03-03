@@ -21,9 +21,9 @@ if (isset($_SESSION['email'])) {
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT * FROM user_status_log where user_Id = :usr");
-    $stmt->execute(array(':usr' => $_SESSION['user_id']));
-    $user_status_log = $stmt->fetch();
+    // $stmt = $pdo->prepare("SELECT * FROM friendship_status where requester_id = :usr");
+    // $stmt->execute(array(':usr' => $_SESSION['user_id']));
+    // $friend_req = $stmt->fetch();
     $pfpsrc_default = './assets/images/default-user-square.png';
 
     if ($user[0]['pfp'] != null) {
@@ -31,8 +31,8 @@ if (isset($_SESSION['email'])) {
     } else {
         $userpfp = $pfpsrc_default;
     }
-
-    if ($user_status_log != null) {
+/*
+    if ($friend_req != null) {
         $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
         $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
     } else {
@@ -44,7 +44,8 @@ if (isset($_SESSION['email'])) {
                 ':date' => date(DATE_RFC2822)
             )
         );
-    }
+    }*/
+    
     if (isset($_POST['friend_req'])) {
         echo $_POST['friend_req'];
         $addressee_id = $_POST['friend_req'];
@@ -145,10 +146,14 @@ if (isset($_SESSION['email'])) {
             echo ("</td><td>");
             echo $diff;
             echo ("</td><td>");
-            echo "<form action='add-friend.php' method='post'>";
-            echo "<input name='friend_req' value='{$account['user_id']}' style='display: none;'/>";
-            echo "<input type='submit' value='Send friend request'/>";
-            echo "</form>";
+            if($account['user_id'] != $_SESSION['user_id']) {
+                echo "<form action='add-friend.php' method='post'>";
+                echo "<input name='friend_req' value='{$account['user_id']}' style='display: none;'/>";
+                echo "<input type='submit' value='Send friend request'/>";
+                echo "</form>";
+            } else {
+                echo "";
+            }
             echo ("</td></tr>\n");
             echo ("</td></tr>\n");
         }

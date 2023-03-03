@@ -45,8 +45,9 @@ if (isset($_SESSION['email'])) {
         <?php
         require_once "navbar.php";
         echo "<h1>Friend requests</h1>";
-        if ($friendship_requests == "") {
-            echo "no friend requests :(";
+        if (!$friendship_requests) {
+            echo "<p>no friend requests</p>";
+            echo "<span>Send one <a href='./users.php'>here</a></span>";
         } else {
             foreach ($friendship_requests as $friendship_request) {
                 $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
