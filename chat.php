@@ -23,39 +23,41 @@ if (isset($_POST['logout'])) {
   return;
 }
 
-if (isset($_POST['message'])) {
-  $stmta = $pdo->prepare(
-    'INSERT INTO chatlog
-  (message, message_date, account, user_id)
-  VALUES (:msg, :msgd, :acc, :usrid)'
-  );
+if (isset($_SESSION['user_id'])) {
+  if (isset($_POST['message'])) {
+    $stmta = $pdo->prepare(
+      'INSERT INTO chatlog
+    (message, message_date, account, user_id)
+    VALUES (:msg, :msgd, :acc, :usrid)'
+    );
 
-  $stmta->execute(
-    array(
-      ':msg' => $_POST['message'],
-      ':msgd' => date(DATE_RFC2822),
-      ':acc' => $_SESSION['username'],
-      ':usrid' => $_SESSION['user_id']
-    )
-  );
-  $stmt = $pdo->query(
-    "SELECT * FROM chatlog"
-  );
-  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} else {
-  foreach ($_POST as $edit_msg) {
-    $key = array_search($edit_msg, $_POST);
+    $stmta->execute(
+      array(
+        ':msg' => $_POST['message'],
+        ':msgd' => date(DATE_RFC2822),
+        ':acc' => $_SESSION['username'],
+        ':usrid' => $_SESSION['user_id']
+      )
+    );
+    $stmt = $pdo->query(
+      "SELECT * FROM chatlog"
+    );
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } else {
+    foreach ($_POST as $edit_msg) {
+      $key = array_search($edit_msg, $_POST);
 
 
-    $sql = "UPDATE chatlog SET message = :msg
-            WHERE message_id = :message_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(array(
-      ':msg' => $edit_msg,
-      ':message_id' => $key
-    ));
+      $sql = "UPDATE chatlog SET message = :msg
+              WHERE message_id = :message_id";
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute(array(
+        ':msg' => $edit_msg,
+        ':message_id' => $key
+      ));
 
-    break;
+      break;
+    }
   }
 }
 ?>
@@ -76,64 +78,14 @@ if (isset($_POST['message'])) {
   </section>
   <section>
     <div class="progress" id="chatcontent">
-      <!--<img class="spinner" src="spinner.gif" alt="Loading..." />-->
+      <!-- <img class="spinner" src="spinner.gif" alt="Loading..." /> -->
+      <p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>
       <?php
-      require_once "pdo.php";
-      function loadChat($pdo)
-      {
-        $stmt = $pdo->query(
-          "SELECT * FROM chatlog"
-        );
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($rows) > 0) {
-          echo "<p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>";
-          foreach ($rows as $row) {
-            $pfpsrc = './assets/images/default-user-round.png';
-            $user = "<a href='./profile.php?id={$row['user_id']}' class='account rainbow_text_animated'>" . $row['account'] . "</a>";
-
-            $stmta = $pdo->prepare("SELECT pfp FROM account WHERE user_id=?");
-            $stmta->execute([$row['user_id']]);
-            $pfptemp = $stmta->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($pfptemp as $test) {
-              if ($test['pfp'] != null) {
-                $pfpsrc = $test['pfp'];
-              }
-            }
-            $pfp = "<a class='pfp-link' href='./profile.php?id={$row['user_id']}'><img class='profile-image' src='$pfpsrc'></a>";
-
-
-            $message = htmlentities($row["message"]);
-            if (isset($_COOKIE['timezone'])) {
- 
-              $timezone_offset_minutes = $_COOKIE['timezone'];
-              $time = new DateTime($row["message_date"]);
-              $minutes_to_add = ($timezone_offset_minutes);
-              $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
-              $stamp = $time->format('D, d M Y H:i:s');
-
-            } else {
-              $stamp = $row["message_date"];
-            }
-            $msg_parent_id = $row['message_id'] . "parent";
-            $info = "<p class='stats'>{$user} ({$stamp})</p>";
-            if ($row['account'] == $_SESSION['name']) {
-              $editBtn = "<button class='btn chat-btn' onclick='handleEdit({$row['message_id']})'>Edit</button>";
-            } else {
-              $editBtn = "";
-            }
-            $msg = "<p class='msg' id='{$msg_parent_id}'><span id='{$row['message_id']}'>{$message}</span> " . $editBtn . "</p>";
-            echo $pfp;
-            echo "<div style='margin-left: 10px;margin-top: 18px;'>{$info}{$msg}</div>";
-          }
-        }
-      };
-      loadChat($pdo);
+      require_once "messages.php";
       ?>
     </div>
     <form id='form' autocomplete="off" method="post" action="chat.php">
       <div>
-        <!--<input pattern=".{1,}" required title="3 characters minimum" id='message-input' type="text" name="message" size="60" placeholder="Enter message and submit" />-->
         <input id='message-input' type="text" name="message" size="60" style="width: 55vw;" placeholder="Enter message and submit" />
         <input class='button not-allowed' id="submit" type="submit" value="Chat" />
         <input class='button' id='logout' type="submit" name="logout" value="Logout" />
@@ -188,10 +140,6 @@ if (isset($_POST['message'])) {
         function() {
           $("#chatcontent").removeClass("progress");
         }, 1000);
-      console.log('%c Why are you here in the console?', 'background: #000; color: #ffa500');
-      console.log('%c Dont try anything sus', 'background: #000; color: #ffa500');
-      console.log("%c                                      \n    .->                .->            \n ,---(`-')   .---.(`-')----.  .----.  \n'  .-(OO )  / .  |( OO).-.  '\\_,-.  | \n|  | .-, \\ / /|  |( _) | |  |   .' .' \n|  | '.(_// '-'  ||\\|  |)|  | .'  /_  \n|  '-'  | `---|  |' '  '-'  '|      | \n `-----'      `--'   `-----' `------' ", 'background: #000; color: #ffa500')
-
     })
 
     function chatScroll() {
@@ -221,53 +169,30 @@ if (isset($_POST['message'])) {
         chatScroll()
       }
     }, 1000)*/
+    /*
+        let inverval = window.setInterval(function() {
+          $.ajax({
+            url: "msglength.php",
+            success: function(data) {
+              let chat = document.getElementById("chatcontent");
+              let chatLength = (chat.childElementCount - 1) / 2;
 
-    let inverval = window.setInterval(function() {
-      $.ajax({
-        url: "msglength.php",
-        success: function(data) {
-          let chat = document.getElementById("chatcontent");
-          let chatLength = (chat.childElementCount - 1) / 2;
-
-          if (data != chatLength) {
-            $.ajax({
-              url: "messages.php",
-              success: function(data) {
-                document.getElementById("chatcontent").innerHTML = data;
-                let chat = document.getElementById("chatcontent")
-                if (chat.scrollTop >= (chat.scrollHeight - chat.offsetHeight) - 100) {
-                  chatScroll()
-                }
-                console.log('chat updated')
+              if (data != chatLength) {
+                $.ajax({
+                  url: "messages.php",
+                  success: function(data) {
+                    document.getElementById("chatcontent").innerHTML = data;
+                    let chat = document.getElementById("chatcontent")
+                    if (chat.scrollTop >= (chat.scrollHeight - chat.offsetHeight) - 100) {
+                      chatScroll()
+                    }
+                    console.log('chat updated')
+                  }
+                });
               }
-            });
-          }
-        }
-      });
-    }, 1000)
-  </script>
-
-
-
-  <?php
-  if (isset($_SESSION['email'])) {
-    $pfpsrc = './assets/images/default-user-round.png';
-
-    $stmta = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
-    $stmta->execute([$_SESSION['user_id']]);
-    $pfptemp = $stmta->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($pfptemp as $test) {
-      if ($test['pfp'] != null) {
-        $pfpsrc = $test['pfp'];
-      }
-      $_SESSION['name'] = $test['name'];
-      $_SESSION['email'] = $test['email'];
-    }
-    $pfp = "<a class='pfp-link' href='./profile.php?user={$test['name']}'><img class='profile-image' style='border-radius: 100px;height: 60px;width:60px;'' src='$pfpsrc'></a>";
-    $main = "<p style='margin-top: 20px;font-size: 20px;font-family: monospace;'>{$_SESSION['name']}</p><p style='font-family: monospace;'>{$_SESSION['email']}</p>";
-    $actions = '<a href="edit-account.php">Edit Account</a> | <a href="logout.php">Logout</a>';
-  }
-  ?>
+            }
+          });
+        }, 1000)
+        */
   </script>
 </body>
