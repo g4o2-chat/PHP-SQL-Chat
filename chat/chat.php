@@ -77,7 +77,7 @@ if (!isset($_SESSION["email"])) {
     </form>
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
     <script>
-        const socket = io("http://localhost:3000");
+        const socket = io("http://g4o2-api.maxhu787.repl.co");
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
