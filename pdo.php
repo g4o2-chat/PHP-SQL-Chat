@@ -28,3 +28,4 @@ $pdo = new PDO(
     $DB_PASSWORD
 );
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+?>

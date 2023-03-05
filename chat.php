@@ -92,7 +92,6 @@ if (isset($_SESSION['user_id'])) {
       </div>
     </form>
   </section>
-  </script>
   <script type="text/javascript">
     function handleEdit(id) {
       let parent_id = id + "parent";
