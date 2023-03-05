@@ -7,7 +7,7 @@ if (!isset($_SESSION["email"])) {
     echo "<p align='center'>PLEASE LOGIN</p>";
     echo "<br />";
     echo "<p align='center'>Redirecting in 3 seconds</p>";
-    header("refresh:3;url=login.php");
+    header("refresh:3;url=../login.php");
     die();
 }
 ?>
@@ -77,7 +77,7 @@ if (!isset($_SESSION["email"])) {
     </form>
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
     <script>
-        var socket = io("https://g4o2-api.maxhu787.repl.co/");
+        const socket = io("http://localhost:3000");
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
