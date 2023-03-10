@@ -14,8 +14,8 @@ $pdo = new PDO(
     $DB_PASSWORD
 );
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-/*$HOST = 'localhost';
+/*
+$HOST = 'localhost';
 $PORT = 3306;
 $DB_NAME = 'sql12561191';
 $DB_USER = 'g4o2';
