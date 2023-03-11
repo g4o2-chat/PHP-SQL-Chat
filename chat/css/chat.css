@@ -5,11 +5,11 @@
         color: #ffffff;
         opacity: 87%;
         overflow-x: hidden;
-        
+
         background: url(../../assets/backgrounds/burj-khalifa.jpg);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
     }
 
     #chatcontent {
