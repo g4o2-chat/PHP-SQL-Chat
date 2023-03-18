@@ -36,11 +36,11 @@ if (!isset($_SESSION["email"])) {
     <script>
         // const socket = io("https://g4o2-api.maxhu787.repl.co");
         const socket = io("http://localhost:3000");
-        var messages = document.getElementById('chatcontent');
-        var form = document.getElementById('form');
-        var input = document.getElementById('message-input');
-        var submitBtn = document.getElementById('submit');
-        var user_id = '<?= $_SESSION['user_id'] ?>';
+        const messages = document.getElementById('chatcontent');
+        const form = document.getElementById('form');
+        const input = document.getElementById('message-input');
+        const submitBtn = document.getElementById('submit');
+        const user_id = '<?= $_SESSION['user_id'] ?>';
         /*do {
             username = prompt('Username');
         } while (username.match(/[^a-zA-Z0-9_]+/g) || username == "")
@@ -127,7 +127,7 @@ if (!isset($_SESSION["email"])) {
         })
 
         socket.on('message-submit', function(messageDetails) {
-            let pfpsrc = '../assets/images/default-user-round.png';
+            /*let pfpsrc = '../assets/images/default-user-round.png';
             let pfp = `<a class="pfp-link" href="./profile.php?id=${messageDetails['user_id']}"><img class="profile-image" src="${pfpsrc}"></a>`;
             let user = `<a href="./profile.php?id=${messageDetails['user_id']}" class="account rainbow_text_animated">${messageDetails['account']}</a>`;
             let message = escapeHtml(messageDetails['message']);
@@ -145,7 +145,36 @@ if (!isset($_SESSION["email"])) {
             $("#chatcontent").append(pfp);
             $("#chatcontent").append(div);
 
-            chatScroll();
+            chatScroll();*/
+
+            fetch(`http://localhost:3000/db/users/${messageDetails['user_id']}`)
+                .then((response) => response.text())
+                .then((body) => {
+                    user_json = JSON.parse(body);
+                    let pfpsrc = '../assets/images/default-user-round.png';
+                    if (user_json['pfp']) {
+                        pfpsrc = user_json['pfp']
+                    }
+                    let username = user_json['username'];
+                    let pfp = `<a class="pfp-link" href="./profile.php?id=${messageDetails['user_id']}"><img class="profile-image" src="${pfpsrc}"></a>`;
+                    let user = `<a href="./profile.php?id=${messageDetails['user_id']}" class="account rainbow_text_animated">${username}</a>`;
+                    let message = escapeHtml(messageDetails["message"]);
+                    let msg_parent_id = messageDetails['message_id'] + "parent";
+                    let stamp = messageDetails["message_date"];
+                    let info = `<p class="stats">${user} (${stamp})</p>`;
+                    let editBtn = "";
+
+                    if (messageDetails['user_id'] == <?= $_SESSION['user_id'] ?>) {
+                        editBtn = `<button class="btn chat-btn" onclick="handleEdit(${messageDetails['message_id']})">Edit</button>`;
+                    }
+                    let msg = `<p class="msg" id="${msg_parent_id}"><span id="${messageDetails['message_id']}">${message}</span> ${editBtn}</p>`;
+                    let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
+
+                    $("#chatcontent").append(pfp);
+                    $("#chatcontent").append(div);
+                    chatScroll();
+                })
+
         });
 
         form.addEventListener('submit', function(e) {
