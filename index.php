@@ -56,7 +56,51 @@ if (isset($_SESSION['email'])) {
             float: right;
             right: 0;
             position: absolute;
-            display: none;   
+            display: none;
+        }
+
+        .img-container {
+            position: relative;
+            width: 35%;
+            height: 90%;
+            background: rgba(0, 0, 0, 0);
+            /* transform: rotate(0deg); */
+            transform: rotate(-25deg) skew(25deg) scale(1);
+            /* transform: rotate(-25deg) skew(25deg) scale(0.5); */
+            transition: .4s;
+            margin: 0 auto;
+        }
+
+        .img-container img {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            transition: .4s;
+            cursor: pointer;
+            border-width: 30px 12px 50px;
+            border-style: solid;
+            border-radius: 8px;
+            border-color: black;
+        }
+
+        .img-container:hover img:nth-child(4) {
+            transform: translate(120px, -120px);
+            opacity: 1;
+        }
+
+        .img-container:hover img:nth-child(3) {
+            transform: translate(90px, -90px);
+            opacity: 0.85;
+        }
+
+        .img-container:hover img:nth-child(2) {
+            transform: translate(60px, -60px);
+            opacity: 0.7;
+        }
+
+        .img-container:hover img:nth-child(1) {
+            transform: translate(30px, -30px);
+            opacity: 0.55;
         }
     </style>
 </head>
@@ -166,10 +210,15 @@ if (isset($_SESSION['email'])) {
             echo '<p>Please <a class="btn btn-outline-success" href="./login.php">Login</a></p>';
         }
         echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
-        echo '<a href="https://github.com/g4o2/g4o2" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"></a><hr/>';
-        echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
+        echo '<a href="https://github.com/g4o2/g4o2-api" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2-api" alt="github repo"></a><hr/>';
+        // echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
         ?>
-        <!-- <img src="./assets/backgrounds/burj-khalifa.jpg" alt=""> -->
+        <div class="img-container">
+            <img src='./assets/images/showcase/demo-2.PNG' />
+            <img src='./assets/images/showcase/demo-3.PNG' />
+            <img src='./assets/images/showcase/demo-2.PNG' />
+            <img src='./assets/images/showcase/demo-1.PNG' />
+        </div>
     </main>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
