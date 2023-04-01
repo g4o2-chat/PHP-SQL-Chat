@@ -76,11 +76,25 @@ if (isset($_SESSION['email'])) {
         table {
             display: none;
         }
+
+        iframe {
+            height: 150px !important;
+            width: 250px !important;
+            float: right;
+            right: 0;
+            display: none;
+            position: absolute;
+        }
     </style>
 </head>
 
 <body>
     <main>
+        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+
         <script>
             window.onload = function() {
                 $("#loading-screen").show();
@@ -89,6 +103,7 @@ if (isset($_SESSION['email'])) {
             window.addEventListener("load", function() {
                 $("#loading-screen").hide();
                 $('table').fadeIn(1000);
+                $('iframe').fadeIn(1000);
             });
         </script>
         <div id="loading-screen">

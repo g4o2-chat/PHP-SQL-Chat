@@ -49,6 +49,15 @@ if (isset($_SESSION['email'])) {
         footer {
             display: none;
         }
+
+        iframe {
+            height: 150px !important;
+            width: 250px !important;
+            float: right;
+            right: 0;
+            position: absolute;
+            display: none;   
+        }
     </style>
 </head>
 
@@ -60,10 +69,14 @@ if (isset($_SESSION['email'])) {
         window.addEventListener("load", function() {
             $("#loading-screen").hide();
             $('main').fadeIn(1000);
-            $('footer').fadeIn(1000);    
+            $('footer').fadeIn(1000);
+            $('iframe').fadeIn(1000);
         });
     </script>
-
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
     <!-- <div class="w-75 p-2" style="background-color: #eee;margin: auto;"> -->
     <main class="table-responsive">
         <?php
@@ -156,6 +169,7 @@ if (isset($_SESSION['email'])) {
         echo '<a href="https://github.com/g4o2/g4o2" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2" alt="github repo"></a><hr/>';
         echo '<a href="https://github.com/Maxhu787" target="_blank"><img src="https://github-readme-streak-stats.herokuapp.com/?user=maxhu787"></a>';
         ?>
+        <!-- <img src="./assets/backgrounds/burj-khalifa.jpg" alt=""> -->
     </main>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">

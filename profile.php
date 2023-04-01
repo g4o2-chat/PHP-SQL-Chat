@@ -33,9 +33,23 @@ if (count($rows) > 0) {
 
 <head>
     <title><?= (isset($name)) ? $username . " ($name)" : $username ?></title>
+    <style>
+        iframe {
+            height: 150px !important;
+            width: 250px !important;
+            float: right;
+            right: 0;
+            position: absolute;
+        }
+    </style>
 </head>
 
 <body>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
+
     <?php
     include_once "navbar.php";
     ?>
