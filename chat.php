@@ -1,4 +1,6 @@
 <?php
+header("Location: ./chat/chat.php");
+
 require_once "pdo.php";
 // date_default_timezone_set('UTC');
 date_default_timezone_set('Asia/Taipei');

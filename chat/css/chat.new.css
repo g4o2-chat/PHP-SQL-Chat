@@ -3,7 +3,6 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #ffffff;
-    opacity: 87%;
     overflow-x: hidden;
     background: url(../../assets/backgrounds/burj-khalifa.jpg);
         background-repeat: no-repeat;
@@ -12,15 +11,20 @@ body {
 }
 
 #chatcontent {
+    height: 85vh;
+    width: 90%;
     padding-left: 16px;
     border-radius: 8px;
     overflow-y: auto;
     overflow-x: hidden;
-    margin-left: 5px;
-    margin-bottom: 2vh;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 10px;
-    padding: 10px 0px 30px 30px;
-    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 0px 0px 30px;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
 }
 
 ::-webkit-scrollbar-track {
@@ -99,6 +103,7 @@ body {
 }
 
 #form {
+    margin-left: -8px;
     width: 100%;
     text-align: center;
     position: fixed;
@@ -108,6 +113,7 @@ body {
 #submit {
     background-color: #ffa500;
     color: #000;
+    width: 9%;
 }
 
 #submit:hover {
