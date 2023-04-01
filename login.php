@@ -13,6 +13,51 @@ if (isset($_POST["cancel"])) {
     die();
 }
 
+if(isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
+    unset($SESSION["username"]);
+    unset($SESSION["user_id"]);
+    session_destroy();
+    session_start();
+    $salt = getenv('SALT');
+    $check = hash("md5", $salt . $_COOKIE['password']);
+
+    $stmt = $pdo->prepare(
+        'SELECT user_id, username, email, disabled
+        FROM account
+        WHERE
+        email = :em AND
+        password = :pw'
+    );
+    $stmt->execute(array(':em' => $_COOKIE['email'], ':pw' => $check));
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+    if ($row !== false) {
+        if ($row['disabled'] === "True") {
+            $_SESSION["error"] = "Account disabled";
+            error_log("Login fail disabled account " . $_COOKIE['email'] . " " . $ip . " (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
+            header("Location: $url/login.php");
+            die();
+        }
+        if ($_COOKIE['email'] == 'g4o2@protonmail.com' || $_COOKIE['email'] == 'g4o3@protonmail.com' || $_POST["email"] == 'maxhu787@gmail.com') {
+            // error_log("Login success admin account (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
+        } else {
+            error_log("Login success " . $_COOKIE['email'] . " " . $ip . " (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
+        }
+        $_SESSION["user_id"] = $row["user_id"];
+        $_SESSION["username"] = $row["username"];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION["success"] = "Logged in.";
+        header("Location: $url/index.php");
+        die();
+    } else {
+        $_SESSION["error"] = "Incorrect email or password";
+        error_log("Login fail wrong password " . $_COOKIE['email'] . " " . $check . " " . $ip . " (" . date(DATE_RFC2822) . ")\n", 3, "./logs/logs.log");
+        header("Location: $url/login.php");
+        die();
+    }
+}
+
 if (isset($_POST["email"]) && isset($_POST["pass"])) {
     unset($SESSION["username"]);
     unset($SESSION["user_id"]);
@@ -48,6 +93,11 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
         $_SESSION["username"] = $row["username"];
         $_SESSION['email'] = $row['email'];
         $_SESSION["success"] = "Logged in.";
+        if ($_POST['remember'] == 'remember') {
+            setcookie("email", $row["email"], time() + (86400 * 30), "/");
+            setcookie("password", $_POST["pass"], time() + (86400 * 30), "/");
+            // 86400 = 1 day
+        }
         header("Location: $url/index.php");
         die();
     } else {
@@ -144,7 +194,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
         <input type="password" id="id_pass" class="form-control" name="pass" placeholder="Password" required="">
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" name="remember" value="remember"> Remember me
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return doValidate();">Sign in</button>
