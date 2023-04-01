@@ -33,8 +33,8 @@ if (!isset($_SESSION["email"])) {
         </form>
         <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
         <script>
-            // const socket = io("https://g4o2-api.maxhu787.repl.co");
-            const url = "http://localhost:3000"
+            const url="https://g4o2-api.maxhu787.repl.co"
+            // const url = "http://localhost:3000"
             const socket = io(url);
             const messages = document.getElementById('chatcontent');
             const form = document.getElementById('form');
