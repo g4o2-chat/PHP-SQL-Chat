@@ -68,6 +68,7 @@ if (!isset($_SESSION["email"])) {
         <div id="loading-screen">
             <img src="../favicon.ico" alt="g4o2-chat logo">
             <p>Loading...</p>
+            <p>Takes about 20 seconds</p>
         </div>
         <div id="chatcontent">
             <p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>
@@ -79,17 +80,14 @@ if (!isset($_SESSION["email"])) {
         </form>
         <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
         <script>
-            const url="https://g4o2-api.maxhu787.repl.co"
-            // const url = "http://localhost:3000"
+            const url = "https://g4o2-api.maxhu787.repl.co";
+            // const url = "http://localhost:3000";
             const socket = io(url);
             const messages = document.getElementById('chatcontent');
             const form = document.getElementById('form');
             const input = document.getElementById('message-input');
             const submitBtn = document.getElementById('submit');
             const user_id = '<?= $_SESSION['user_id'] ?>';
-
-            socket.emit('user-connect', user_id);
-            socket.emit('load-messages', user_id);
 
             function chatScroll() {
                 messages.scrollTop = messages.scrollHeight;
@@ -125,8 +123,8 @@ if (!isset($_SESSION["email"])) {
                                     }
                                     username = user_json['username'];
                                     user_id = user_json['user_id'];
-                                    let pfp = `<a class="pfp-link" href="./profile.php?id=${user_id}"><img class="profile-image" src="${pfpsrc}"></a>`;
-                                    let user = `<a href="./profile.php?id=${user_id}" class="account rainbow_text_animated">${username}</a>`;
+                                    let pfp = `<a class="pfp-link" href="../profile.php?id=${user_id}"><img class="profile-image" src="${pfpsrc}"></a>`;
+                                    let user = `<a href="../profile.php?id=${user_id}" class="account rainbow_text_animated">${username}</a>`;
                                     let message = data[i]["message"];
                                     message = escapeHtml(message);
                                     let msg_parent_id = data[i]['message_id'] + "parent";
@@ -142,19 +140,21 @@ if (!isset($_SESSION["email"])) {
                                     let msg = `<p class="msg" id="${msg_parent_id}"><span id="${data[i]['message_id']}">${message}</span> ${editBtn}</p>`;
                                     let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
 
-                                    // setTimeout(function() {}, 1000)
-                                    $("#loading-screen").hide();
-                                    $("#chatcontent").fadeIn(1000);
-                                    $("#form").fadeIn(1000);
-                                    // document.body.style.backgroundImage = "../../assets/backgrounds/burj-khalifa.jpg";
                                     $("#chatcontent").append(pfp);
                                     $("#chatcontent").append(div);
+                                    setTimeout(function() {
+                                        $("#loading-screen").hide();
+                                        $("#chatcontent").fadeIn(1000);
+                                        $("#form").fadeIn(1000);
+                                        // document.body.style.backgroundImage = "../../assets/backgrounds/burj-khalifa.jpg";
+                                    }, 20000)
                                     chatScroll();
                                 })
-                        }
-                    }
-                });
 
+                            }
+                        }
+                });
+            socket.emit('user-connect', user_id);
             socket.on('user-connect', function(user_id) {
                 fetch(url.concat(`/db/users/${user_id}`))
                     .then((response) => response.text())
@@ -177,8 +177,8 @@ if (!isset($_SESSION["email"])) {
                             pfpsrc = user_json['pfp']
                         }
                         let username = user_json['username'];
-                        let pfp = `<a class="pfp-link" href="./profile.php?id=${messageDetails['user_id']}"><img class="profile-image" src="${pfpsrc}"></a>`;
-                        let user = `<a href="./profile.php?id=${messageDetails['user_id']}" class="account rainbow_text_animated">${username}</a>`;
+                        let pfp = `<a class="pfp-link" href="../profile.php?id=${messageDetails['user_id']}"><img class="profile-image" src="${pfpsrc}"></a>`;
+                        let user = `<a href="../profile.php?id=${messageDetails['user_id']}" class="account rainbow_text_animated">${username}</a>`;
                         let message = escapeHtml(messageDetails["message"]);
                         let msg_parent_id = messageDetails['message_id'] + "parent";
                         let message_date = messageDetails["message_date"];
