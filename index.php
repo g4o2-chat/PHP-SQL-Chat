@@ -41,12 +41,29 @@ if (isset($_SESSION['email'])) {
 
 <head>
     <title>G4o2 Chat</title>
+    <style>
+        main {
+            display: none;
+        }
+
+        footer {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <?php
     require_once "navbar.php";
     ?>
+    <script>
+        window.addEventListener("load", function() {
+            $("#loading-screen").hide();
+            $('main').fadeIn(1000);
+            $('footer').fadeIn(1000);    
+        });
+    </script>
+
     <!-- <div class="w-75 p-2" style="background-color: #eee;margin: auto;"> -->
     <main class="table-responsive">
         <?php
@@ -61,8 +78,8 @@ if (isset($_SESSION['email'])) {
 
         if (isset($_SESSION['user_id'])) {
             echo "<p>Logged in</p><br/>";
-            
-            echo '<p>User ID ' . $_SESSION['user_id']."</p>";
+
+            echo '<p>User ID ' . $_SESSION['user_id'] . "</p>";
             /*echo '
             <table class="table table-light table-bordered table-hover">
                 <thead class="thead-dark">

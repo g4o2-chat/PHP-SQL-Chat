@@ -31,7 +31,7 @@ if (isset($_SESSION['email'])) {
     } else {
         $userpfp = $pfpsrc_default;
     }
-/*
+    /*
     if ($friend_req != null) {
         $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
         $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
@@ -45,7 +45,7 @@ if (isset($_SESSION['email'])) {
             )
         );
     }*/
-    
+
     if (isset($_POST['friend_req'])) {
         echo $_POST['friend_req'];
         $addressee_id = $_POST['friend_req'];
@@ -72,13 +72,32 @@ if (isset($_SESSION['email'])) {
 
 <head>
     <title>G4o2 Chat</title>
+    <style>
+        table {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <main>
+        <script>
+            window.onload = function() {
+                $("#loading-screen").show();
+            }
+
+            window.addEventListener("load", function() {
+                $("#loading-screen").hide();
+                $('table').fadeIn(1000);
+            });
+        </script>
+        <div id="loading-screen">
+            <img src="./favicon.ico" alt="g4o2-chat logo">
+            <p>Loading...</p>
+        </div>
         <?php
         require_once "navbar.php";
-        echo 'User ID ' . $_SESSION['user_id'];
+        // echo 'User ID ' . $_SESSION['user_id'];
         echo '
     <table class="table table-light table-bordered table-hover">
         <thead class="thead-dark">
@@ -146,7 +165,7 @@ if (isset($_SESSION['email'])) {
             echo ("</td><td>");
             echo $diff;
             echo ("</td><td>");
-            if($account['user_id'] != $_SESSION['user_id']) {
+            if ($account['user_id'] != $_SESSION['user_id']) {
                 echo "<form action='add-friend.php' method='post'>";
                 echo "<input name='friend_req' value='{$account['user_id']}' style='display: none;'/>";
                 echo "<input type='submit' value='Send friend request'/>";
@@ -163,4 +182,5 @@ if (isset($_SESSION['email'])) {
         ?>
     </main>
 </body>
+
 </html>

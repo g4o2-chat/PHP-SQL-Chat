@@ -16,14 +16,60 @@ if (!isset($_SESSION["email"])) {
 <head>
     <title>g4o2 chat</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="./css/chat.new.css">
+    <link rel="stylesheet" href="./css/chat.css">
+    <style>
+        #chatcontent {
+            display: none;
+        }
+
+        #form {
+            display: none;
+        }
+
+        #loading-screen {
+            text-align: center;
+            font-size: 20px;
+            color: #000;
+        }
+
+        #loading-screen img {
+            margin-bottom: 30px;
+            height: 180px;
+            width: 180px;
+            animation-name: logo-spin;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes logo-spin {
+            25% {
+                transform: rotate(90deg);
+            }
+
+            50% {
+                transform: rotate(190deg);
+            }
+
+            75% {
+                transform: rotate(270deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="../scripts/main.js"></script>
 </head>
 
 <body>
-    <main>
-        <div class="progress" id="chatcontent">
+    <main id="main">
+        <div id="loading-screen">
+            <img src="../favicon.ico" alt="g4o2-chat logo">
+            <p>Loading...</p>
+        </div>
+        <div id="chatcontent">
             <p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>
             <div id="new-message-alert">New message</div>
         </div>
@@ -57,6 +103,7 @@ if (!isset($_SESSION["email"])) {
                     .replace(/'/g, "&#x27;")
                     .replace(/"/g, "&quot;");
             }
+            $("#loading-screen").show();
             fetch(url.concat('/db/chatlog'))
                 .then((response) => response.text())
                 .then((body) => {
@@ -67,37 +114,44 @@ if (!isset($_SESSION["email"])) {
                         let user_id;
                         let pfpsrc;
                         let data = chatlog;
-                        fetch(url.concat(`/db/users/${data[i]['user_id']}`))
-                            .then((response) => response.text())
-                            .then((body) => {
-                                user_json = JSON.parse(body);
-                                pfpsrc = '../assets/images/default-user-round.png';
-                                if (user_json['pfp']) {
-                                    pfpsrc = user_json['pfp']
-                                }
-                                username = user_json['username'];
-                                user_id = user_json['user_id'];
-                                let pfp = `<a class="pfp-link" href="./profile.php?id=${user_id}"><img class="profile-image" src="${pfpsrc}"></a>`;
-                                let user = `<a href="./profile.php?id=${user_id}" class="account rainbow_text_animated">${username}</a>`;
-                                let message = data[i]["message"];
-                                message = escapeHtml(message);
-                                let msg_parent_id = data[i]['message_id'] + "parent";
-                                let message_date = data[i]["message_date"];
-                                let localDate = new Date(message_date.toLocaleString());
+                        if (data[i]['user_id'] !== null) {
+                            fetch(url.concat(`/db/users/${data[i]['user_id']}`))
+                                .then((response) => response.text())
+                                .then((body) => {
+                                    user_json = JSON.parse(body);
+                                    pfpsrc = '../assets/images/default-user-round.png';
+                                    if (user_json['pfp']) {
+                                        pfpsrc = user_json['pfp']
+                                    }
+                                    username = user_json['username'];
+                                    user_id = user_json['user_id'];
+                                    let pfp = `<a class="pfp-link" href="./profile.php?id=${user_id}"><img class="profile-image" src="${pfpsrc}"></a>`;
+                                    let user = `<a href="./profile.php?id=${user_id}" class="account rainbow_text_animated">${username}</a>`;
+                                    let message = data[i]["message"];
+                                    message = escapeHtml(message);
+                                    let msg_parent_id = data[i]['message_id'] + "parent";
+                                    let message_date = data[i]["message_date"];
+                                    let localDate = new Date(message_date.toLocaleString());
 
-                                let info = `<p class="stats">${user} (${localDate})</p>`;
-                                let editBtn = "";
+                                    let info = `<p class="stats">${user} (${localDate})</p>`;
+                                    let editBtn = "";
 
-                                if (user_id == <?= $_SESSION['user_id'] ?>) {
-                                    editBtn = `<button class="btn chat-btn" onclick="handleEdit(${data[i]['message_id']})">Edit</button>`;
-                                }
-                                let msg = `<p class="msg" id="${msg_parent_id}"><span id="${data[i]['message_id']}">${message}</span> ${editBtn}</p>`;
-                                let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
+                                    if (user_id == <?= $_SESSION['user_id'] ?>) {
+                                        editBtn = `<button class="btn chat-btn" onclick="handleEdit(${data[i]['message_id']})">Edit</button>`;
+                                    }
+                                    let msg = `<p class="msg" id="${msg_parent_id}"><span id="${data[i]['message_id']}">${message}</span> ${editBtn}</p>`;
+                                    let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
 
-                                $("#chatcontent").append(pfp);
-                                $("#chatcontent").append(div);
-                                chatScroll();
-                            })
+                                    // setTimeout(function() {}, 1000)
+                                    $("#loading-screen").hide();
+                                    $("#chatcontent").fadeIn(1000);
+                                    $("#form").fadeIn(1000);
+                                    // document.body.style.backgroundImage = "../../assets/backgrounds/burj-khalifa.jpg";
+                                    $("#chatcontent").append(pfp);
+                                    $("#chatcontent").append(div);
+                                    chatScroll();
+                                })
+                        }
                     }
                 });
 
