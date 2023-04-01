@@ -33,7 +33,9 @@ if (!isset($_SESSION["email"])) {
         </form>
         <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
         <script>
-            const socket = io("https://g4o2-api.maxhu787.repl.co");
+            // const socket = io("https://g4o2-api.maxhu787.repl.co");
+            const url = "http://localhost:3000"
+            const socket = io(url);
             const messages = document.getElementById('chatcontent');
             const form = document.getElementById('form');
             const input = document.getElementById('message-input');
@@ -44,7 +46,6 @@ if (!isset($_SESSION["email"])) {
             socket.emit('load-messages', user_id);
 
             function chatScroll() {
-                //not working
                 messages.scrollTop = messages.scrollHeight;
             }
 
@@ -56,17 +57,17 @@ if (!isset($_SESSION["email"])) {
                     .replace(/'/g, "&#x27;")
                     .replace(/"/g, "&quot;");
             }
-            //fetch messages on page load
-            fetch('https://g4o2-api.maxhu787.repl.co/db/chatlog')
+            fetch(url.concat('/db/chatlog'))
                 .then((response) => response.text())
                 .then((body) => {
-                    data = JSON.parse(body);
-                    data = data['responce'];
-                    for (let i = 0; i < data.length; i++) {
+                    chatlog = JSON.parse(body);
+                    chatlog = chatlog['responce'];
+                    for (let i = 0; i < chatlog.length; i++) {
                         let username;
                         let user_id;
                         let pfpsrc;
-                        fetch(`https://g4o2-api.maxhu787.repl.co/db/users/${data[i]['user_id']}`)
+                        let data = chatlog;
+                        fetch(url.concat(`/db/users/${data[i]['user_id']}`))
                             .then((response) => response.text())
                             .then((body) => {
                                 user_json = JSON.parse(body);
@@ -101,7 +102,7 @@ if (!isset($_SESSION["email"])) {
                 });
 
             socket.on('user-connect', function(user_id) {
-                fetch(`https://g4o2-api.maxhu787.repl.co/db/users/${user_id}`)
+                fetch(url.concat(`/db/users/${user_id}`))
                     .then((response) => response.text())
                     .then((body) => {
                         data = JSON.parse(body);
@@ -113,7 +114,7 @@ if (!isset($_SESSION["email"])) {
             })
 
             socket.on('message-submit', function(messageDetails) {
-                fetch(`https://g4o2-api.maxhu787.repl.co/db/users/${messageDetails['user_id']}`)
+                fetch(url.concat(`/db/users/${messageDetails['user_id']}`))
                     .then((response) => response.text())
                     .then((body) => {
                         user_json = JSON.parse(body);
@@ -155,7 +156,7 @@ if (!isset($_SESSION["email"])) {
                         message: message,
                         message_date: date
                     }
-                    fetch(`https://g4o2-api.maxhu787.repl.co/db/insert/message?message=${message}&message_date=${date}&user_id=${user_id}`)
+                    fetch(url.concat(`/db/insert/message?message=${message}&message_date=${date}&user_id=${user_id}`))
                         .then((response) => response.text())
                         .then((body) => {
                             responce = JSON.parse(body);
