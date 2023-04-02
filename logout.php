@@ -13,7 +13,6 @@ session_destroy();
 if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
     unset($_COOKIE['email']);
     setcookie('email', null, -1, '/');
-    return true;
 }
 if (isset($_COOKIE['password']) && !empty($_COOKIE['password'])) {
     unset($_COOKIE['password']);
@@ -21,3 +20,5 @@ if (isset($_COOKIE['password']) && !empty($_COOKIE['password'])) {
 }
 
 header('Location: index.php');
+exit;
+?>

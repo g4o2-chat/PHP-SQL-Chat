@@ -41,6 +41,7 @@ if (isset($_SESSION['email'])) {
 
 <head>
     <title>G4o2 Chat</title>
+    <link rel="stylesheet" href="./css/login.css">
     <style>
         main {
             display: none;
@@ -60,24 +61,25 @@ if (isset($_SESSION['email'])) {
         }
 
         .img-container {
-            position: relative;
-            width: 35%;
-            height: 90%;
+            /* position: relative; */
+            width: 200px;
+            height: 340px;
             background: rgba(0, 0, 0, 0);
-            /* transform: rotate(0deg); */
             transform: rotate(-25deg) skew(25deg) scale(1);
             /* transform: rotate(-25deg) skew(25deg) scale(0.5); */
             transition: .4s;
-            margin: 0 auto;
+            display: inline-block;
+            /* margin-right: 400px; */
+            margin-left: 100px;
         }
 
         .img-container img {
             position: absolute;
-            height: 100%;
-            width: 100%;
+            height: 340px;
+            width: 200px;
             transition: .4s;
             cursor: pointer;
-            border-width: 30px 12px 50px;
+            border-width: 30px 12px 35px;
             border-style: solid;
             border-radius: 8px;
             border-color: black;
@@ -101,6 +103,16 @@ if (isset($_SESSION['email'])) {
         .img-container:hover img:nth-child(1) {
             transform: translate(30px, -30px);
             opacity: 0.55;
+        }
+
+        #main-content {
+            width: 100%;
+            text-align: center;
+        }
+
+        #login {
+            text-align: center;
+            display: inline-block;
         }
     </style>
 </head>
@@ -219,6 +231,48 @@ if (isset($_SESSION['email'])) {
             <img src='./assets/images/showcase/demo-2.PNG' />
             <img src='./assets/images/showcase/demo-1.PNG' />
         </div>
+<!--
+        <section id='main-content'>
+            <div class="img-container">
+                <img src='./assets/images/showcase/demo-2.PNG' />
+                <img src='./assets/images/showcase/demo-3.PNG' />
+                <img src='./assets/images/showcase/demo-2.PNG' />
+                <img src='./assets/images/showcase/demo-1.PNG' />
+            </div>
+            <div id='login'>
+                <form class="form-signin" method="post">
+                    <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <p>
+                        <?php
+                        /*if (isset($_SESSION["error"])) {
+                           echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+                            unset($_SESSION["error"]);
+                        }
+                        if (isset($_SESSION["success"])) {
+                            echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+                            unset($_SESSION["success"]);
+                        }*/
+                        echo "";
+                        ?>
+                    </p>
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="email" id="id_email" class="form-control" name="email" placeholder="Email address" required="" autofocus="">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="id_pass" class="form-control" name="pass" placeholder="Password" required="">
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="remember" value="remember"> Remember me
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return doValidate();">Sign in</button>
+                    <p class="mt-5 mb-3 text-muted">© <?= date("Y") ?></p>
+                    <p>Don't have an account yet? <a href='./signup.php'>register</a></p>
+                </form>
+
+            </div>
+        </section>
+                    -->
     </main>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
@@ -230,7 +284,7 @@ if (isset($_SESSION['email'])) {
                 <a href="https://www.facebook.com/profile.php?id=100075737822439" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+                <a href="https://twitter.com/hu_kaixiang" class="me-4 text-reset text-decoration-none" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
                 <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
@@ -255,9 +309,7 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-gem me-3"></i>g4o2 chat
                         </h6>
                         <p>
-                            Development of this chat began on 2022/8/23, as a side project of <!--<a href="https://github.com/Maxhu787" target="_blank">g4o2</a>-->g4o2, and has been constantly updated with new features ever since.
-                            With about 60 - 70 users and some contributors that helped with the testing of this chat.
-
+                            The development of this chat started on August 23rd, 2022, as a side project of g4o2. Since then, it has been continually updated with new features. Currently, it boasts a user base of approximately 60 to 70 individuals, with some contributors who have assisted with testing the chat.
                         </p>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
@@ -268,10 +320,10 @@ if (isset($_SESSION['email'])) {
                             <a href="./index.php" class="text-reset">Home</a>
                         </p>
                         <p>
-                            <a href="./chat.php" class="text-reset">Chat</a>
+                            <a href="./chat/chat.php" class="text-reset">Chat</a>
                         </p>
                         <p>
-                            <a href="./index.php" class="text-reset">Users</a>
+                            <a href="./users.php" class="text-reset">Users</a>
                         </p>
                         <p>
                             <a href="./profile.php" class="text-reset">Profile</a>

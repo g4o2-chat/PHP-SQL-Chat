@@ -13,7 +13,7 @@ if (isset($_POST["cancel"])) {
     die();
 }
 
-if(isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
+if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
     unset($SESSION["username"]);
     unset($SESSION["user_id"]);
     session_destroy();
