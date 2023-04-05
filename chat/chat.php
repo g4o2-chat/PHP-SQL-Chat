@@ -64,187 +64,145 @@ if (!isset($_SESSION["email"])) {
 </head>
 
 <body>
-    <main id="main">
-        <div id="loading-screen">
-            <img src="../favicon.ico" alt="g4o2-chat logo">
-            <p>Loading...</p>
-            <p>Takes about 20 seconds</p>
+    <div class="container">
+        <div class="box box-1">
+            <ul id="users">
+                <!-- <li>
+                    <img src="./assets/images/default-user.png" alt="Profile picture for username">
+                    <span>username</span>
+                </li> -->
+            </ul>
         </div>
-        <div id="chatcontent">
-            <p style='text-align:center;color: #ffa500;'>This is the start of all messages</p>
-            <div id="new-message-alert">New message</div>
+        <div class="box box-2">
+            <div id="messages">
+                <!-- <div class="message-container">
+                    <img class="message-sender-pfp" src="./assets/images/default-user.png" alt="Profile picture for g4o2">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-sender">g4o2</span>
+                            (<time class="message-datetime" datetime="2022-11-04T16:33:55Z">Fri, 04 Nov 2022 16:33:55
+                                +0000</time>)
+                        </div>
+                        <div class="message-body">
+                            <span class="message">a random message</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <form id="message-form">
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button type="submit" id="submit">Send</button>
+            </form>
         </div>
-        <form id='form' action="" autocomplete="off">
-            <input id='message-input' autocomplete="off" type="text" name="message" size="60" placeholder="Enter message and submit" />
-            <button class='button' id="submit">Send</button>
-        </form>
-        <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
-        <script>
-            const url = "https://g4o2-api.maxhu787.repl.co";
-            // const url = "http://localhost:3000";
-            const socket = io(url);
-            const messages = document.getElementById('chatcontent');
-            const form = document.getElementById('form');
-            const input = document.getElementById('message-input');
-            const submitBtn = document.getElementById('submit');
-            const user_id = '<?= $_SESSION['user_id'] ?>';
+        <div class="box box-3">
+            <p>&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p>
+        </div>
+    </div>
+    </div>
+    <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script src="./index.js"></script>
+    <script>
+        // const url = "https://g4o2-api.maxhu787.repl.co";
+        const url = "http://localhost:3000";
+        const socket = io(url);
+        const messages = document.getElementById('messages');
+        const form = document.getElementById('message-form');
+        const input = document.getElementById('message-input');
+        const submitBtn = document.getElementById('submit');
+        const user_id = '<?= $_SESSION['user_id'] ?>';
 
-            function chatScroll() {
-                messages.scrollTop = messages.scrollHeight;
-            }
+        function chatScroll() {
+            messages.scrollTop = messages.scrollHeight;
+        }
 
-            function escapeHtml(text) {
-                return text
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/'/g, "&#x27;")
-                    .replace(/"/g, "&quot;");
-            }
-            $("#loading-screen").show();
-            fetch(url.concat('/db/chatlog'))
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/'/g, "&#x27;")
+                .replace(/"/g, "&quot;");
+        }
+
+        fetch(url.concat('/db/users'))
+            .then((response) => response.text())
+            .then((body) => {
+                users = JSON.parse(body);
+                users = users['responce'];
+                console.log(users)
+                for (let i = 0; i < users.length; i++) {
+                    let pfp = '../assets/images/default-user-square.png';
+                    if (users[i]['pfp']) {
+                        pfp = users[i]['pfp'];
+                    }
+                    const user = new User(users[i]['username'], pfp, 0);
+                    user.addUserToUsers();
+                }
+            });
+        fetch(url.concat('/db/chatlog'))
+            .then((response) => response.text())
+            .then((body) => {
+                chatlog = JSON.parse(body);
+                chatlog = chatlog['responce'];
+                for (let i = 0; i < chatlog.length; i++) {
+                    const message = new Message(chatlog[i]['message'], chatlog[i]['message_date'], chatlog[i]['user_id'], chatlog[i]['username'], chatlog[i]['pfp']);
+                    message.appendMessage();
+                    chatScroll();
+                }
+            });
+        socket.emit('user-connect', user_id);
+        socket.on('user-connect', function(user_id) {
+            fetch(url.concat(`/db/users/${user_id}`))
                 .then((response) => response.text())
                 .then((body) => {
-                    chatlog = JSON.parse(body);
-                    chatlog = chatlog['responce'];
-                    for (let i = 0; i < chatlog.length; i++) {
-                        let username;
-                        let user_id;
-                        let pfpsrc;
-                        let data = chatlog;
-                        if (data[i]['user_id'] !== null) {
-                            fetch(url.concat(`/db/users/${data[i]['user_id']}`))
-                                .then((response) => response.text())
-                                .then((body) => {
-                                    user_json = JSON.parse(body);
-                                    pfpsrc = '../assets/images/default-user-round.png';
-                                    if (user_json['pfp']) {
-                                        pfpsrc = user_json['pfp']
-                                    }
-                                    username = user_json['username'];
-                                    user_id = user_json['user_id'];
-                                    let pfp = `<a class="pfp-link" href="../profile.php?id=${user_id}"><img class="profile-image" src="${pfpsrc}"></a>`;
-                                    let user = `<a href="../profile.php?id=${user_id}" class="account rainbow_text_animated">${username}</a>`;
-                                    let message = data[i]["message"];
-                                    message = escapeHtml(message);
-                                    let msg_parent_id = data[i]['message_id'] + "parent";
-                                    let message_date = data[i]["message_date"];
-                                    let localDate = new Date(message_date.toLocaleString());
-
-                                    let info = `<p class="stats">${user} (${localDate})</p>`;
-                                    let editBtn = "";
-
-                                    if (user_id == <?= $_SESSION['user_id'] ?>) {
-                                        editBtn = `<button class="btn chat-btn" onclick="handleEdit(${data[i]['message_id']})">Edit</button>`;
-                                    }
-                                    let msg = `<p class="msg" id="${msg_parent_id}"><span id="${data[i]['message_id']}">${message}</span> ${editBtn}</p>`;
-                                    let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
-
-                                    $("#chatcontent").append(pfp);
-                                    $("#chatcontent").append(div);
-                                    setTimeout(function() {
-                                        $("#loading-screen").hide();
-                                        $("#chatcontent").fadeIn(1000);
-                                        $("#form").fadeIn(1000);
-                                        // document.body.style.backgroundImage = "../../assets/backgrounds/burj-khalifa.jpg";
-                                    }, 20000)
-                                    chatScroll();
-                                })
-
-                            }
-                        }
+                    data = JSON.parse(body);
+                    let username = data['username']
+                    let userconnect = `<p style=''>User ${username} connected</s>`;
+                    // $("#chatcontent").append(userconnect);
+                    // chatScroll();
                 });
-            socket.emit('user-connect', user_id);
-            socket.on('user-connect', function(user_id) {
-                fetch(url.concat(`/db/users/${user_id}`))
-                    .then((response) => response.text())
-                    .then((body) => {
-                        data = JSON.parse(body);
-                        let username = data['username']
-                        let userconnect = `<p style=''>User ${username} connected</s>`;
-                        $("#chatcontent").append(userconnect);
-                        chatScroll();
-                    });
-            })
+        })
 
-            socket.on('message-submit', function(messageDetails) {
-                fetch(url.concat(`/db/users/${messageDetails['user_id']}`))
-                    .then((response) => response.text())
-                    .then((body) => {
-                        user_json = JSON.parse(body);
-                        let pfpsrc = '../assets/images/default-user-round.png';
-                        if (user_json['pfp']) {
-                            pfpsrc = user_json['pfp']
-                        }
-                        let username = user_json['username'];
-                        let pfp = `<a class="pfp-link" href="../profile.php?id=${messageDetails['user_id']}"><img class="profile-image" src="${pfpsrc}"></a>`;
-                        let user = `<a href="../profile.php?id=${messageDetails['user_id']}" class="account rainbow_text_animated">${username}</a>`;
-                        let message = escapeHtml(messageDetails["message"]);
-                        let msg_parent_id = messageDetails['message_id'] + "parent";
-                        let message_date = messageDetails["message_date"];
-                        let localDate = new Date(message_date.toLocaleString());
+        socket.on('message-submit', function(messageDetails) {
+            const message = new Message(messageDetails['message'], messageDetails['message_date'], messageDetails['user_id'], messageDetails['username'], messageDetails['pfp']);
+            message.appendMessage();
+            chatScroll()
+        });
 
-                        let info = `<p class="stats">${user} (${localDate})</p>`;
-                        let editBtn = "";
-
-                        if (messageDetails['user_id'] == <?= $_SESSION['user_id'] ?>) {
-                            editBtn = `<button class="btn chat-btn" onclick="handleEdit(${messageDetails['message_id']})">Edit</button>`;
-                        }
-                        let msg = `<p class="msg" id="${msg_parent_id}"><span id="${messageDetails['message_id']}">${message}</span> ${editBtn}</p>`;
-                        let div = `<div style="margin-left: 10px;margin-top: 18px;">${info}${msg}</div>`;
-
-                        $("#chatcontent").append(pfp);
-                        $("#chatcontent").append(div);
-                        chatScroll();
-                    })
-
-            });
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (input.value) {
-                    let date = new Date().toUTCString()
-                    let message = input.value
-                    messageDetails = {
-                        user_id: user_id,
-                        message: message,
-                        message_date: date
-                    }
-                    fetch(url.concat(`/db/insert/message?message=${message}&message_date=${date}&user_id=${user_id}`))
-                        .then((response) => response.text())
-                        .then((body) => {
-                            responce = JSON.parse(body);
-                            alert(responce);
-                        })
-                    socket.emit('message-submit', messageDetails);
-                    input.value = '';
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                let date = new Date().toUTCString()
+                let message = input.value
+                messageDetails = {
+                    message: message,
+                    message_date: date,
+                    user_id: user_id
                 }
-            });
-
-            window.addEventListener("keydown", event => {
-                if ((event.keyCode == 191)) {
-                    if (input === document.activeElement) {
-                        return;
-                    } else {
-                        input.focus();
-                        input.select();
-                        event.preventDefault();
-                    }
-                }
-                if ((event.keyCode == 27)) {
-                    if (input === document.activeElement) {
-                        document.activeElement.blur();
-                        window.focus();
-                        event.preventDefault();
-                    }
-                }
-            });
-
-            function handleEdit(id) {
-                alert(`Message editing not supported yet | message_id: ${id}`);
+                socket.emit('message-submit', messageDetails);
+                input.value = '';
             }
-        </script>
-    </main>
+        });
+
+        window.addEventListener("keydown", event => {
+            if ((event.keyCode == 191)) {
+                if (input === document.activeElement) {
+                    return;
+                } else {
+                    input.focus();
+                    input.select();
+                    event.preventDefault();
+                }
+            }
+            if ((event.keyCode == 27)) {
+                if (input === document.activeElement) {
+                    document.activeElement.blur();
+                    window.focus();
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
