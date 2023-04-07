@@ -74,45 +74,22 @@ if (isset($_SESSION['email'])) {
     <title>G4o2 Chat</title>
     <style>
         table {
-            display: none;
-        }
-
-        iframe {
-            height: 150px !important;
-            width: 250px !important;
-            float: right;
-            right: 0;
-            display: none;
-            position: absolute;
+            font-size: 12px;
+            /* width: 100%; */
         }
     </style>
 </head>
 
 <body>
     <main>
-        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-        <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-
         <script>
-            window.onload = function() {
-                $("#loading-screen").show();
-            }
-
             window.addEventListener("load", function() {
-                $("#loading-screen").hide();
-                $('table').fadeIn(1000);
-                $('iframe').fadeIn(1000);
+                $('body').fadeIn(1000);
             });
         </script>
-        <div id="loading-screen">
-            <img src="./favicon.ico" alt="g4o2-chat logo">
-            <p>Loading...</p>
-        </div>
         <?php
         require_once "navbar.php";
-        // echo 'User ID ' . $_SESSION['user_id'];
+        echo 'User ID >>' . $_SESSION['user_id'];
         echo '
     <table class="table table-light table-bordered table-hover">
         <thead class="thead-dark">
@@ -183,7 +160,8 @@ if (isset($_SESSION['email'])) {
             if ($account['user_id'] != $_SESSION['user_id']) {
                 echo "<form action='add-friend.php' method='post'>";
                 echo "<input name='friend_req' value='{$account['user_id']}' style='display: none;'/>";
-                echo "<input type='submit' value='Send friend request'/>";
+                // echo "<input type='submit' value='Send friend request'/>";
+                echo "none";
                 echo "</form>";
             } else {
                 echo "";

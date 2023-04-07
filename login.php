@@ -194,7 +194,7 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
         <input type="password" id="id_pass" class="form-control" name="pass" placeholder="Password" required="">
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="remember" value="remember"> Remember me
+                <input type="checkbox" name="remember" value="remember" checked> Remember me
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return doValidate();">Sign in</button>

@@ -102,8 +102,8 @@ if (!isset($_SESSION["email"])) {
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
     <script src="./index.js"></script>
     <script>
-        // const url = "https://g4o2-api.maxhu787.repl.co";
-        const url = "http://localhost:3000";
+        const url = "https://g4o2-api.maxhu787.repl.co";
+        // const url = "http://localhost:3000";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
@@ -158,8 +158,6 @@ if (!isset($_SESSION["email"])) {
                     data = JSON.parse(body);
                     let username = data['username']
                     let userconnect = `<p style=''>User ${username} connected</s>`;
-                    // $("#chatcontent").append(userconnect);
-                    // chatScroll();
                 });
         })
 
