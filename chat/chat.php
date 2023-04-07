@@ -167,6 +167,10 @@ if (!isset($_SESSION["email"])) {
             chatScroll()
         });
 
+        socket.on('message-error', function(err) {
+            document.location.href = `https://http.cat/${err}`;
+        })
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (input.value) {
