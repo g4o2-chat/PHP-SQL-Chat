@@ -110,6 +110,8 @@ if (!isset($_SESSION["email"])) {
         const input = document.getElementById('message-input');
         const submitBtn = document.getElementById('submit');
         const user_id = '<?= $_SESSION['user_id'] ?>';
+        let msg_load_index = 1;
+        let first_load_messages = true;
 
         function chatScroll() {
             messages.scrollTop = messages.scrollHeight;
@@ -129,7 +131,7 @@ if (!isset($_SESSION["email"])) {
             .then((body) => {
                 users = JSON.parse(body);
                 users = users['responce'];
-                console.log(users)
+                // console.log(users)
                 for (let i = 0; i < users.length; i++) {
                     let pfp = '../assets/images/default-user-square.png';
                     if (users[i]['pfp']) {
@@ -139,17 +141,22 @@ if (!isset($_SESSION["email"])) {
                     user.addUserToUsers();
                 }
             });
-        fetch(url.concat('/db/chatlog'))
-            .then((response) => response.text())
-            .then((body) => {
-                chatlog = JSON.parse(body);
-                chatlog = chatlog['responce'];
-                for (let i = 0; i < chatlog.length; i++) {
-                    const message = new Message(chatlog[i]['message'], chatlog[i]['message_date'], chatlog[i]['user_id'], chatlog[i]['username'], chatlog[i]['pfp']);
-                    message.appendMessage();
-                    chatScroll();
-                }
-            });
+
+        socket.emit('load-message', msg_load_index);
+        socket.on('load-message', function(chatlog) {
+            for (let i = 0; i < chatlog.length; i++) {
+                const message = new Message(chatlog[i]['message'], chatlog[i]['message_date'], chatlog[i]['user_id'], chatlog[i]['username'], chatlog[i]['pfp']);
+                message.appendMessageBefore();
+            }
+            if (first_load_messages) {
+                chatScroll()
+            } else {
+                $(messages).scrollTop($(messages).scrollTop() + 60 * chatlog.length);
+            }
+            first_load_messages = false;
+            msg_load_index += 10;
+        })
+
         socket.emit('user-connect', user_id);
         socket.on('user-connect', function(user_id) {
             fetch(url.concat(`/db/users/${user_id}`))
@@ -183,6 +190,10 @@ if (!isset($_SESSION["email"])) {
                 }
                 socket.emit('message-submit', messageDetails);
                 input.value = '';
+                let noMsgElement = document.getElementById('no-msg');
+                if (noMsgElement && getComputedStyle(noMsgElement).display !== "none") {
+                    noMsgElement.style.display = "none";
+                }
             }
         });
 
@@ -202,6 +213,13 @@ if (!isset($_SESSION["email"])) {
                     window.focus();
                     event.preventDefault();
                 }
+            }
+        });
+
+
+        messages.addEventListener("scroll", function() {
+            if (messages.scrollTop === 0) {
+                socket.emit('load-message', msg_load_index);
             }
         });
     </script>
