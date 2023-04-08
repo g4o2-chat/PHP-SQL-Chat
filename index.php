@@ -1,6 +1,7 @@
 <?php
 require_once "pdo.php";
 require_once "head.php";
+require_once "track_viewers.php";
 
 if (isset($_SESSION['email'])) {
     $stmt = $pdo->query("SELECT * FROM account");
