@@ -157,6 +157,13 @@ if (isset($_SESSION['email'])) {
             <img src='./assets/images/showcase/demo-1.PNG' />
         </div>
     </main>
+    <?php
+    if(isset($_SESSION['user_id'])) {
+        // echo '<script> sessionStorage.setItem("user_id", "' . $_SESSION['user_id'] . '");</script>';
+    } else {
+        // echo '<script> sessionStorage.removeItem("user_id"); </script>';
+    }
+    ?>
     </div>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">

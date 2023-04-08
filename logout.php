@@ -18,7 +18,6 @@ if (isset($_COOKIE['password']) && !empty($_COOKIE['password'])) {
     unset($_COOKIE['password']);
     setcookie('password', null, -1, '/');
 }
-
 header('Location: index.php');
 exit;
 ?>

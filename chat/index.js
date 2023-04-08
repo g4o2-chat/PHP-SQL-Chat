@@ -996,7 +996,11 @@ class Message {
 
         const img = document.createElement("img");
         img.classList.add("message-sender-pfp");
-        img.setAttribute("src", this.pfp);
+        if (this.pfp === null) {
+            img.setAttribute("src", "../assets/images/default-user-square.png");
+        } else {
+            img.setAttribute("src", this.pfp);
+        }
         img.setAttribute("alt", `Profile picture for ${this.username}`);
         img.setAttribute("id", this.user_id);
 
@@ -1041,7 +1045,11 @@ class Message {
 
         const img = document.createElement("img");
         img.classList.add("message-sender-pfp");
-        img.setAttribute("src", this.pfp);
+        if(this.pfp === null) {
+            img.setAttribute("src", "../assets/images/default-user-square.png");
+        } else {
+            img.setAttribute("src", this.pfp);
+        }
         img.setAttribute("alt", `Profile picture for ${this.username}`);
         img.setAttribute("id", this.user_id);
 

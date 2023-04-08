@@ -1,5 +1,7 @@
 <?php
-require_once "../pdo.php";
+session_start();
+ob_start();
+ini_set('display_errors', 0);
 if (!isset($_SESSION["email"])) {
     include 'head.php';
     echo "<p align='center'>PLEASE LOGIN</p>";
@@ -9,86 +11,23 @@ if (!isset($_SESSION["email"])) {
     die();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>g4o2 chat</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="./css/chat.css">
-    <style>
-        #chatcontent {
-            display: none;
-        }
-
-        #form {
-            display: none;
-        }
-
-        #loading-screen {
-            text-align: center;
-            font-size: 20px;
-            color: #000;
-        }
-
-        #loading-screen img {
-            margin-bottom: 30px;
-            height: 180px;
-            width: 180px;
-            animation-name: logo-spin;
-            animation-duration: 3s;
-            animation-iteration-count: infinite;
-        }
-
-        @keyframes logo-spin {
-            25% {
-                transform: rotate(90deg);
-            }
-
-            50% {
-                transform: rotate(190deg);
-            }
-
-            75% {
-                transform: rotate(270deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="../scripts/main.js"></script>
+    <link rel="stylesheet" href="./css/chat.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
     <div class="container">
         <div class="box box-1">
-            <ul id="users">
-                <!-- <li>
-                    <img src="./assets/images/default-user.png" alt="Profile picture for username">
-                    <span>username</span>
-                </li> -->
-            </ul>
+            <ul id="users"></ul>
         </div>
         <div class="box box-2">
-            <div id="messages">
-                <!-- <div class="message-container">
-                    <img class="message-sender-pfp" src="./assets/images/default-user.png" alt="Profile picture for g4o2">
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">g4o2</span>
-                            (<time class="message-datetime" datetime="2022-11-04T16:33:55Z">Fri, 04 Nov 2022 16:33:55
-                                +0000</time>)
-                        </div>
-                        <div class="message-body">
-                            <span class="message">a random message</span>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+            <div id="messages"></div>
+            <button onclick="scrollBottom()" id="scrollBottom" title="Go to the bottom"><img src="../assets/images/up-arrow.svg" style="height: 20px;"></button>
             <form id="message-form">
                 <input type="text" id="message-input" placeholder="Type your message...">
                 <button type="submit" id="submit">Send</button>
@@ -99,6 +38,8 @@ if (!isset($_SESSION["email"])) {
         </div>
     </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../scripts/main.js"></script>
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
     <script src="./index.js"></script>
     <script>
@@ -109,12 +50,22 @@ if (!isset($_SESSION["email"])) {
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
         const submitBtn = document.getElementById('submit');
-        const user_id = '<?= $_SESSION['user_id'] ?>';
+        const user_id = '<?=$_SESSION['user_id']?>';
+        // const user_id = parseInt(sessionStorage.getItem("user_id"));
         let msg_load_index = 1;
         let first_load_messages = true;
+        let chat_entire_load = false;
 
         function chatScroll() {
             messages.scrollTop = messages.scrollHeight;
+        }
+
+        function scrollBottom() {
+            messages.scrollTo({
+                top: messages.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+            });
         }
 
         function escapeHtml(text) {
@@ -144,6 +95,16 @@ if (!isset($_SESSION["email"])) {
 
         socket.emit('load-message', msg_load_index);
         socket.on('load-message', function(chatlog) {
+            // console.log(chatlog)
+            if (chatlog.length == 0 && chat_entire_load == false) {
+                const pTag = document.createElement("p");
+                pTag.innerText = "The conversation starts here.";
+                pTag.style.textAlign = "center";
+                pTag.style.color = "orange";
+                const firstChild = document.getElementById('messages').firstChild;
+                document.getElementById('messages').insertBefore(pTag, firstChild);
+                chat_entire_load = true
+            }
             for (let i = 0; i < chatlog.length; i++) {
                 const message = new Message(chatlog[i]['message'], chatlog[i]['message_date'], chatlog[i]['user_id'], chatlog[i]['username'], chatlog[i]['pfp']);
                 message.appendMessageBefore();
@@ -154,7 +115,7 @@ if (!isset($_SESSION["email"])) {
                 $(messages).scrollTop($(messages).scrollTop() + 60 * chatlog.length);
             }
             first_load_messages = false;
-            msg_load_index += 10;
+            msg_load_index += 25;
         })
 
         socket.emit('user-connect', user_id);
@@ -215,7 +176,6 @@ if (!isset($_SESSION["email"])) {
                 }
             }
         });
-
 
         messages.addEventListener("scroll", function() {
             if (messages.scrollTop === 0) {
