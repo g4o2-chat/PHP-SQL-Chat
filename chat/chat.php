@@ -48,20 +48,6 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        window.addEventListener("load", function() {
-            // setTimeout(function() {
-                $("#loading-screen").hide();
-                $("#copy-right").hide();
-                $('main').show(1000);
-                $('body').css({
-                    'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
-                    'background-repeat': 'no-repeat',
-                    'background-attachment': 'fixed',
-                    'background-size': '100% 100%'
-                });
-                chatScroll();
-            // }, 0);
-        });
         const url = "https://g4o2-api.maxhu787.repl.co";
         // const url = "http://localhost:3000";
         const socket = io(url);
@@ -74,6 +60,39 @@ if (!isset($_SESSION["email"])) {
         let msg_load_index = 1;
         let first_load_messages = true;
         let chat_entire_load = false;
+        let messagesLoaded = false;
+        let usersLoaded = false;
+
+        function waitUntilTrue(variable, callback) {
+            if (variable) {
+                callback();
+            } else {
+                setTimeout(function() {
+                    waitUntilTrue(variable, callback);
+                }, 100);
+            }
+        }
+
+
+        window.addEventListener("load", function() {
+            new Promise(resolve => {
+                const interval = setInterval(() => {
+                    if (messagesLoaded && usersLoaded) {
+                        clearInterval(interval);
+                        $("#loading-screen").hide();
+                        $("#copy-right").hide();
+                        $('main').show(1000);
+                        $('body').css({
+                            'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
+                            'background-repeat': 'no-repeat',
+                            'background-attachment': 'fixed',
+                            'background-size': '100% 100%'
+                        });
+                        chatScroll();
+                    }
+                }, 100);
+            })
+        });
 
         function chatScroll() {
             messages.scrollTop = messages.scrollHeight;
@@ -110,6 +129,7 @@ if (!isset($_SESSION["email"])) {
                     const user = new User(users[i]['username'], pfp, 0);
                     user.addUserToUsers();
                 }
+                usersLoaded ||= true;
             });
 
         socket.emit('load-message', msg_load_index);
@@ -130,6 +150,7 @@ if (!isset($_SESSION["email"])) {
             }
             if (first_load_messages) {
                 chatScroll()
+                messagesLoaded ||= true;
             } else {
                 $(messages).scrollTop($(messages).scrollTop() + 60 * chatlog.length);
             }

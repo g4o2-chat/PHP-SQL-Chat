@@ -20,7 +20,7 @@
                         Pages
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="./chat.php">Chat</a></li>
+                        <li><a class="dropdown-item" href="./chat/chat.php">Chat</a></li>
                         <li><a class="dropdown-item" href="./users.php">Users</a></li>
                     </ul>
                 </li>
