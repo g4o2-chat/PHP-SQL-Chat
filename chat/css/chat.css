@@ -1,12 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 html,
 body {
     margin: 0;
     height: 100%;
-    /* background-color: rgba(41, 41, 41); */
+    /*
     background: url(../../assets/backgrounds/burj-khalifa.jpg);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;*/
     color: #fff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -142,44 +143,51 @@ body {
     background-color: #fff;
 }
 
-#chatcontent {
-    display: none;
-}
-
-#form {
-    display: none;
-}
-
 #loading-screen {
     text-align: center;
-    font-size: 20px;
-    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
 
 #loading-screen img {
-    margin-bottom: 30px;
-    height: 180px;
-    width: 180px;
-    animation-name: logo-spin;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
+    height: 65px;
+    width: 65px;
+    animation: logo-anim 1.8s ease infinite;
 }
 
-@keyframes logo-spin {
-    25% {
-        transform: rotate(90deg);
+#copy-right {
+    font-size: 12px;
+    color: #333;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes logo-anim {
+    30% {
+        transform: scale(1.2);
+    }
+
+    40%,
+    60% {
+        transform: rotate(-20deg) scale(1.2);
     }
 
     50% {
-        transform: rotate(190deg);
+        transform: rotate(20deg) scale(1.2);
     }
 
-    75% {
-        transform: rotate(270deg);
+    70% {
+        transform: rotate(0deg) scale(1.2);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: scale(1);
     }
 }
 

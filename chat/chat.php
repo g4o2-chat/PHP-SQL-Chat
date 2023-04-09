@@ -15,13 +15,17 @@ if (!isset($_SESSION["email"])) {
 <html lang="en">
 
 <head>
-    <title>g4o2 chat</title>
+    <title>G4O2 Chat</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="./css/chat.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
-    <div class="container">
+    <div id="loading-screen">
+        <img src="../favicon.ico" alt="logo">
+    </div>
+    <p id="copy-right">&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p>
+    <main class="container" style="display:none">
         <div class="box box-1">
             <ul id="users"></ul>
         </div>
@@ -36,13 +40,28 @@ if (!isset($_SESSION["email"])) {
         <div class="box box-3">
             <p>&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p>
         </div>
-    </div>
-    </div>
+    </main>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="../scripts/main.js"></script>
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>
     <script src="./index.js"></script>
     <script>
+        $('main').hide();
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                $("#loading-screen").hide();
+                $("#copy-right").hide();
+                $('main').show(1000);
+                $('body').css({
+                    'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
+                    'background-repeat': 'no-repeat',
+                    'background-attachment': 'fixed',
+                    'background-size': '100% 100%'
+                });
+                chatScroll();
+            }, 2000000);
+        });
         const url = "https://g4o2-api.maxhu787.repl.co";
         // const url = "http://localhost:3000";
         const socket = io(url);
@@ -50,7 +69,7 @@ if (!isset($_SESSION["email"])) {
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
         const submitBtn = document.getElementById('submit');
-        const user_id = '<?=$_SESSION['user_id']?>';
+        const user_id = '<?= $_SESSION['user_id'] ?>';
         // const user_id = parseInt(sessionStorage.getItem("user_id"));
         let msg_load_index = 1;
         let first_load_messages = true;
