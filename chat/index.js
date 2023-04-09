@@ -1013,7 +1013,7 @@ class Message {
         const messageSenderSpan = document.createElement("span");
         messageSenderSpan.classList.add("message-sender");
         messageSenderSpan.innerText = this.username.concat(" ");
-        
+
         const messageDateTime = document.createElement("time");
         messageDateTime.classList.add("message-datetime");
         messageDateTime.setAttribute("datetime", this.localDate);
@@ -1022,12 +1022,21 @@ class Message {
         messageHeaderDiv.appendChild(messageSenderSpan);
         messageHeaderDiv.appendChild(messageDateTime);
 
+        const urlRegex = new RegExp('(https?://[^\\s]+\\.[^\\s]+)', 'gi');
+
         const messageBodyDiv = document.createElement("div");
         messageBodyDiv.classList.add("message-body");
 
-        const messageSpan = document.createElement("span");
+        const messageSpan = document.createElement("div");
         messageSpan.classList.add("message");
-        messageSpan.innerText = escapeHtml(filterSwears(this.message));
+        const messageFiltered = escapeHtml(filterSwears(this.message))
+        messageSpan.innerHTML = messageFiltered.replace(urlRegex, (url) => {
+            const aTag = document.createElement('a');
+            aTag.setAttribute('href', url);
+            aTag.setAttribute('target', '_blank');
+            aTag.innerText = url;
+            return aTag.outerHTML;
+        });
 
         messageBodyDiv.appendChild(messageSpan);
 
@@ -1071,12 +1080,21 @@ class Message {
         messageHeaderDiv.appendChild(messageSenderSpan);
         messageHeaderDiv.appendChild(messageDateTime);
 
+        const urlRegex = new RegExp('(https?://[^\\s]+\\.[^\\s]+)', 'gi');
+
         const messageBodyDiv = document.createElement("div");
         messageBodyDiv.classList.add("message-body");
 
-        const messageSpan = document.createElement("span");
+        const messageSpan = document.createElement("div");
         messageSpan.classList.add("message");
-        messageSpan.innerText = escapeHtml(filterSwears(this.message));
+        const messageFiltered = escapeHtml(filterSwears(this.message))
+        messageSpan.innerHTML = messageFiltered.replace(urlRegex, (url) => {
+            const aTag = document.createElement('a');
+            aTag.setAttribute('href', url);
+            aTag.setAttribute('target', '_blank');
+            aTag.innerText = url;
+            return aTag.outerHTML;
+        });
 
         messageBodyDiv.appendChild(messageSpan);
 
@@ -1085,8 +1103,6 @@ class Message {
 
         div.appendChild(img);
         div.appendChild(messageContentDiv);
-
-        // document.getElementById('messages').appendChild(div);
 
         const firstChild = document.getElementById('messages').firstChild;
         document.getElementById('messages').insertBefore(div, firstChild);

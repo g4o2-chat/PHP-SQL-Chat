@@ -16,6 +16,15 @@ body {
     /* border: solid 1px orange; */
 }
 
+a {
+    color: rgb(53, 178, 255);
+}
+
+a:hover {
+    color: #ffa500;
+    text-decoration: underline;
+}
+
 .container {
     height: 100%;
     min-height: 100%;

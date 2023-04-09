@@ -48,7 +48,13 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
         $_SESSION["username"] = $row["username"];
         $_SESSION['email'] = $row['email'];
         $_SESSION["success"] = "Logged in.";
-        header("Location: $url/index.php");
+        if(isset($_GET['page'])) {
+            if($_GET['page'] == 'chat') {
+                header("Location: $url/chat/chat.php");
+            }
+        } else {
+            header("Location: $url/index.php");
+        }
         die();
     } else {
         $_SESSION["error"] = "Incorrect email or password";
@@ -98,7 +104,13 @@ if (isset($_POST["email"]) && isset($_POST["pass"])) {
             setcookie("password", $_POST["pass"], time() + (86400 * 30), "/");
             // 86400 = 1 day
         }
-        header("Location: $url/index.php");
+        if (isset($_GET['page'])) {
+            if ($_GET['page'] == 'chat') {
+                header("Location: $url/chat/chat.php");
+            }
+        } else {
+            header("Location: $url/index.php");
+        }
         die();
     } else {
         $_SESSION["error"] = "Incorrect email or password";

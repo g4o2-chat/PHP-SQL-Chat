@@ -7,7 +7,7 @@ if (!isset($_SESSION["email"])) {
     echo "<p align='center'>PLEASE LOGIN</p>";
     echo "<br />";
     echo "<p align='center'>Redirecting in 3 seconds</p>";
-    header("refresh:3;url=../login.php");
+    header("refresh:3;url=../login.php?page=chat");
     die();
 }
 ?>
