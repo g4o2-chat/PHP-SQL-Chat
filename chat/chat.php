@@ -49,7 +49,7 @@ if (!isset($_SESSION["email"])) {
     <script>
         $('main').hide();
         window.addEventListener("load", function() {
-            setTimeout(function() {
+            // setTimeout(function() {
                 $("#loading-screen").hide();
                 $("#copy-right").hide();
                 $('main').show(1000);
@@ -60,10 +60,10 @@ if (!isset($_SESSION["email"])) {
                     'background-size': '100% 100%'
                 });
                 chatScroll();
-            }, 2000000);
+            // }, 0);
         });
-        const url = "https://g4o2-api.maxhu787.repl.co";
-        // const url = "http://localhost:3000";
+        // const url = "https://g4o2-api.maxhu787.repl.co";
+        const url = "http://localhost:3000";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
