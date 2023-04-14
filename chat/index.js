@@ -1024,6 +1024,12 @@ class Message {
 
         const urlRegex = new RegExp('(https?://[^\\s]+\\.[^\\s]+)', 'gi');
 
+        const imageImbedRegex = new RegExp('https?:\/\/localhost:3000\/uploads\/\w+\.\w+$', 'gi');
+
+        if(imageImbedRegex.test(this.message)) {
+        } else {
+            
+        }
         const messageBodyDiv = document.createElement("div");
         messageBodyDiv.classList.add("message-body");
 
@@ -1039,7 +1045,6 @@ class Message {
         });
 
         messageBodyDiv.appendChild(messageSpan);
-
         messageContentDiv.appendChild(messageHeaderDiv);
         messageContentDiv.appendChild(messageBodyDiv);
 
@@ -1145,4 +1150,3 @@ class User {
         document.getElementById("messages").appendChild(pElement);
     }
 }
-

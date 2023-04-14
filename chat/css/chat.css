@@ -129,9 +129,11 @@ a:hover {
 #message-form {
     flex: .7;
     display: flex;
+
+    flex-direction: row;
 }
 
-#message-form input {
+#message-form input[type='text'] {
     font-size: 14px;
     padding-left: 12px;
     border-radius: 5px;
@@ -139,6 +141,10 @@ a:hover {
     background-color: #fff;
     transition: all .2s ease-in-out;
     flex: 7;
+}
+
+#message-form input[type='file'] {
+    flex: 4;
 }
 
 #message-form button {

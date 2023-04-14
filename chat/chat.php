@@ -34,6 +34,7 @@ if (!isset($_SESSION["email"])) {
             <button onclick="scrollBottom()" id="scrollBottom" title="Go to the bottom"><img src="../assets/images/up-arrow.svg" style="height: 20px;"></button>
             <form id="message-form">
                 <input type="text" id="message-input" placeholder="Type your message...">
+                <input type="file" id="file-upload">
                 <button type="submit" id="submit">Send</button>
             </form>
         </div>
@@ -48,12 +49,13 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        const url = "https://g4o2-api.maxhu787.repl.co";
-        // const url = "http://localhost:3000";
+        // const url = "https://g4o2-api.maxhu787.repl.co";
+        const url = "http://localhost:3000";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
+        const fileUpload = document.getElementById('file-upload');
         const submitBtn = document.getElementById('submit');
         const user_id = '<?= $_SESSION['user_id'] ?>';
         // const user_id = parseInt(sessionStorage.getItem("user_id"));
@@ -175,6 +177,12 @@ if (!isset($_SESSION["email"])) {
             chatScroll()
         });
 
+        socket.on('image-submit', function(imageDetails) {
+            const image = new Message(imageDetails['message'], imageDetails['message_date'], imageDetails['user_id'], imageDetails['username'], imageDetails['pfp']);
+            image.appendMessage();
+            chatScroll()
+        });
+
         socket.on('message-error', function(err) {
             document.location.href = `https://http.cat/${err}`;
         })
@@ -191,10 +199,41 @@ if (!isset($_SESSION["email"])) {
                 }
                 socket.emit('message-submit', messageDetails);
                 input.value = '';
-                let noMsgElement = document.getElementById('no-msg');
-                if (noMsgElement && getComputedStyle(noMsgElement).display !== "none") {
-                    noMsgElement.style.display = "none";
-                }
+                // let noMsgElement = document.getElementById('no-msg');
+                // if (noMsgElement && getComputedStyle(noMsgElement).display !== "none") {
+                //     noMsgElement.style.display = "none";
+                // }
+            }
+            if (fileUpload.value) {
+                const formData = new FormData();
+                formData.append('image', fileUpload.files[0]);
+
+                fetch(url.concat(`/upload-image`), {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Image upload successful:', data);
+                        let date = new Date().toUTCString()
+                        let temp = url.concat('/uploads/')
+                        let message = temp.concat(data['filename'])
+                        imageDetails = {
+                            message: message,
+                            message_date: date,
+                            user_id: user_id
+                        }
+                        socket.emit('image-submit', imageDetails);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading image:', error);
+                    });
+                fileUpload.value = ''
             }
         });
 
