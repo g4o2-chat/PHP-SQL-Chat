@@ -1010,9 +1010,16 @@ class Message {
         const messageHeaderDiv = document.createElement("div");
         messageHeaderDiv.classList.add("message-header");
 
-        const messageSenderSpan = document.createElement("span");
+        // const messageSenderSpan = document.createElement("span");
+        // messageSenderSpan.classList.add("message-sender");
+        // messageSenderSpan.innerText = this.username.concat(" ");
+
+        const messageSenderSpan = document.createElement("a");
         messageSenderSpan.classList.add("message-sender");
         messageSenderSpan.innerText = this.username.concat(" ");
+        messageSenderSpan.setAttribute('href', chatURL.concat(`/profile.php?id=${this.user_id}`))
+        // messageSenderSpan.setAttribute('target', '_blank');
+
 
         const messageDateTime = document.createElement("time");
         messageDateTime.classList.add("message-datetime");
@@ -1024,14 +1031,6 @@ class Message {
 
         const urlRegex = new RegExp('(https?://[^\\s]+\\.[^\\s]+)', 'gi');
 
-        const imageImbedRegex = new RegExp('https?:\/\/localhost:3000\/uploads\/\w+\.\w+$', 'gi');
-
-        const usernameRegex = new RegExp(`@${user}\\b`, "gi");
-
-        if(imageImbedRegex.test(this.message)) {
-        } else {
-            
-        }
         const messageBodyDiv = document.createElement("div");
         messageBodyDiv.classList.add("message-body");
 
@@ -1046,12 +1045,22 @@ class Message {
             return aTag.outerHTML;
         });
 
-        const messageMentionUser = messageFiltered.match(usernameRegex); // search for the username in the message
-
+        const usernameRegex = new RegExp(`@${user}\\b`, "gi");
+        const messageMentionUser = messageFiltered.match(usernameRegex);
         if (messageMentionUser) {
+            messageContentDiv.classList.add('mention');
+            messageSpan.innerHTML = messageFiltered.replace(usernameRegex, (text) => {
+                const spanTag = document.createElement('a');
+                spanTag.setAttribute('class', 'mention-text');
+                spanTag.setAttribute('href', chatURL.concat(`/profile.php?id=${this.user_id}`));
+                spanTag.innerText = text;
+                return spanTag.outerHTML;
+            });
+
         }
-        
+
         messageBodyDiv.appendChild(messageSpan);
+
         messageContentDiv.appendChild(messageHeaderDiv);
         messageContentDiv.appendChild(messageBodyDiv);
 
@@ -1060,6 +1069,7 @@ class Message {
 
         document.getElementById('messages').appendChild(div);
     }
+
     appendMessageBefore() {
         const div = document.createElement("div");
         div.classList.add("message-container");
@@ -1080,9 +1090,16 @@ class Message {
         const messageHeaderDiv = document.createElement("div");
         messageHeaderDiv.classList.add("message-header");
 
-        const messageSenderSpan = document.createElement("span");
+        // const messageSenderSpan = document.createElement("span");
+        // messageSenderSpan.classList.add("message-sender");
+        // messageSenderSpan.innerText = this.username.concat(" ");
+
+        const messageSenderSpan = document.createElement("a");
         messageSenderSpan.classList.add("message-sender");
         messageSenderSpan.innerText = this.username.concat(" ");
+        messageSenderSpan.setAttribute('href', chatURL.concat(`/profile.php?id=${this.user_id}`))
+        // messageSenderSpan.setAttribute('target', '_blank');
+
 
         const messageDateTime = document.createElement("time");
         messageDateTime.classList.add("message-datetime");
@@ -1107,6 +1124,20 @@ class Message {
             aTag.innerText = url;
             return aTag.outerHTML;
         });
+
+        const usernameRegex = new RegExp(`@${user}\\b`, "gi");
+        const messageMentionUser = messageFiltered.match(usernameRegex);
+        if (messageMentionUser) {
+            messageContentDiv.classList.add('mention');
+            messageSpan.innerHTML = messageFiltered.replace(usernameRegex, (text) => {
+                const spanTag = document.createElement('a');
+                spanTag.setAttribute('class', 'mention-text');
+                spanTag.setAttribute('href', chatURL.concat(`/profile.php?id=${this.user_id}`));
+                spanTag.innerText = text;
+                return spanTag.outerHTML;
+            });
+
+        }
 
         messageBodyDiv.appendChild(messageSpan);
 

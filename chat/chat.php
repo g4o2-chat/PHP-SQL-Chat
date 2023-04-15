@@ -57,8 +57,10 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        // const url = "https://g4o2-api.maxhu787.repl.co";
-        const url = "http://localhost:3000";
+        const url = "https://g4o2-api.maxhu787.repl.co";
+        // const url = "http://localhost:3000";
+        const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
+        // const chatURL = "http://localhost/php-sql-chat";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
@@ -93,15 +95,15 @@ if (!isset($_SESSION["email"])) {
                         $("#loading-screen").hide();
                         $("#copy-right").hide();
                         $('main').show(1000);
-                        /*$('body').css({
+                        $('body').css({
                             'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
                             'background-repeat': 'no-repeat',
                             'background-attachment': 'fixed',
                             'background-size': '100% 100%'
-                        });*/
-                        $('body').css({
-                            'background-color': 'rgba(41, 41, 41)'
                         });
+                        // $('body').css({
+                        //     'background': 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)'
+                        // });
                         chatScroll();
                     }
                 }, 100);
