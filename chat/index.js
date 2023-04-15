@@ -1026,6 +1026,8 @@ class Message {
 
         const imageImbedRegex = new RegExp('https?:\/\/localhost:3000\/uploads\/\w+\.\w+$', 'gi');
 
+        const usernameRegex = new RegExp(`@${user}\\b`, "gi");
+
         if(imageImbedRegex.test(this.message)) {
         } else {
             
@@ -1044,6 +1046,11 @@ class Message {
             return aTag.outerHTML;
         });
 
+        const messageMentionUser = messageFiltered.match(usernameRegex); // search for the username in the message
+
+        if (messageMentionUser) {
+        }
+        
         messageBodyDiv.appendChild(messageSpan);
         messageContentDiv.appendChild(messageHeaderDiv);
         messageContentDiv.appendChild(messageBodyDiv);

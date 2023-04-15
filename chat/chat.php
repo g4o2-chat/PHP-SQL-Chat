@@ -58,6 +58,7 @@ if (!isset($_SESSION["email"])) {
         const fileUpload = document.getElementById('file-upload');
         const submitBtn = document.getElementById('submit');
         const user_id = '<?= $_SESSION['user_id'] ?>';
+        const user = '<?=$_SESSION['username']?>';
         // const user_id = parseInt(sessionStorage.getItem("user_id"));
         let msg_load_index = 1;
         let first_load_messages = true;
