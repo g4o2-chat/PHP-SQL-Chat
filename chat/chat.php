@@ -39,7 +39,15 @@ if (!isset($_SESSION["email"])) {
             </form>
         </div>
         <div class="box box-3">
-            <p>&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p>
+            <ul>
+                <li>server 1</li>
+                <li>server 1</li>
+                <li>server 1</li>
+                <li>server 1</li>
+                <li>server 1</li>
+                <li>server 1</li>
+            </ul>
+            <!-- <p>&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p> -->
         </div>
     </main>
 
@@ -58,7 +66,7 @@ if (!isset($_SESSION["email"])) {
         const fileUpload = document.getElementById('file-upload');
         const submitBtn = document.getElementById('submit');
         const user_id = '<?= $_SESSION['user_id'] ?>';
-        const user = '<?=$_SESSION['username']?>';
+        const user = '<?= $_SESSION['username'] ?>';
         // const user_id = parseInt(sessionStorage.getItem("user_id"));
         let msg_load_index = 1;
         let first_load_messages = true;
@@ -85,11 +93,14 @@ if (!isset($_SESSION["email"])) {
                         $("#loading-screen").hide();
                         $("#copy-right").hide();
                         $('main').show(1000);
-                        $('body').css({
+                        /*$('body').css({
                             'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
                             'background-repeat': 'no-repeat',
                             'background-attachment': 'fixed',
                             'background-size': '100% 100%'
+                        });*/
+                        $('body').css({
+                            'background-color': 'rgba(41, 41, 41)'
                         });
                         chatScroll();
                     }

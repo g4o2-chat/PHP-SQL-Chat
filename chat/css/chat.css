@@ -28,6 +28,7 @@ a:hover {
 .container {
     height: 100%;
     min-height: 100%;
+    width:100%;
     display: flex;
     flex-direction: row;
 }
@@ -60,28 +61,41 @@ a:hover {
     flex-direction: column;
     border: solid 1px orange;
     backdrop-filter: blur(20px);
+    min-width: 0;
 }
 
 .box-1 {
     flex: .35;
-    min-height: 0;
+    /* max-width: 200px; */
+    /* min-width: 200px; */
     overflow-y: auto;
     overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .box-2 {
     flex: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .box-3 {
-    text-align: center;
-    justify-content: center;
-    flex: .2;
+    /* text-align: center; */
+    /* justify-content: center; */
+    flex: .3;
 
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+    /* writing-mode: vertical-rl; */
+    /* text-orientation: mixed; */
+}
+
+@media screen and (max-width: 600px) {
+    .box-1 {
+        display: none;
+    }
+    .box-3 {
+        display: none;
+    }
 }
 
 #users {
@@ -107,6 +121,7 @@ a:hover {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 20px;
+    overflow-wrap: break-word;
 }
 
 .message-container {
