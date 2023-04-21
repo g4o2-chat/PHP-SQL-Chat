@@ -1,0 +1,36 @@
+<form>
+    <label for="profile-pic">Select a profile picture:</label>
+    <input type="file" id="fileUpload">
+    <input type="submit" value="Upload">
+</form>
+
+<script>
+    form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fileUpload = document.getElementById('fileUpload')
+            const url = 'http://localhost:3000';
+            if (fileUpload.value) {
+                const formData = new FormData();
+                formData.append('image', fileUpload.files[0]);
+
+                fetch(url.concat(`/pfp`), {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Image upload successful:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading image:', error);
+                    });
+                fileUpload.value = ''
+            }
+        });
+</script>

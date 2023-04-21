@@ -23,14 +23,13 @@ if (isset($_SESSION['email'])) {
     }
 
     if ($user_status_log != null) {
-        $stmt = $pdo->prepare("UPDATE user_status_log SET account=?, last_active_date_time=? WHERE user_id=?");
-        $stmt->execute([$_SESSION['username'], date(DATE_RFC2822), $_SESSION['user_id']]);
+        $stmt = $pdo->prepare("UPDATE user_status_log SET last_active_date_time=? WHERE user_id=?");
+        $stmt->execute([date(DATE_RFC2822), $_SESSION['user_id']]);
     } else {
-        $stmt = $pdo->prepare('INSERT INTO user_status_log (user_id, account, last_active_date_time) VALUES (:usr, :acc, :date)');
+        $stmt = $pdo->prepare('INSERT INTO user_status_log (user_id, last_active_date_time) VALUES (:usr, :date)');
         $stmt->execute(
             array(
                 ':usr' => $_SESSION['user_id'],
-                ':acc' => $_SESSION['username'],
                 ':date' => date(DATE_RFC2822)
             )
         );

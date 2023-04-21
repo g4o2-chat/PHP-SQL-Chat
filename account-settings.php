@@ -3,6 +3,12 @@ require_once "pdo.php";
 require_once "head.php";
 date_default_timezone_set('Asia/Taipei');
 
+    echo "<p align='center'>FEATURE DISABLED WILL BE BACK IN FUTURE UPDATE</p>";
+    echo "<br />";
+    echo "<p align='center'>Redirecting in 3 seconds</p>";
+    header("refresh:3;url=index.php");
+    die();
+
 if (!isset($_SESSION["email"])) {
     echo "<p align='center'>PLEASE LOGIN</p>";
     echo "<br />";
