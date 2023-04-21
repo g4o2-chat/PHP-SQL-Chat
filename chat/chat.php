@@ -57,10 +57,10 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        const url = "https://g4o2-api.maxhu787.repl.co";
-        // const url = "http://localhost:3000";
-        const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
-        // const chatURL = "http://localhost/php-sql-chat";
+        // const url = "https://g4o2-api.maxhu787.repl.co";
+        const url = "http://localhost:3000";
+        // const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
+        const chatURL = "http://localhost/php-sql-chat";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
@@ -142,7 +142,7 @@ if (!isset($_SESSION["email"])) {
                     if (users[i]['pfp']) {
                         pfp = users[i]['pfp'];
                     }
-                    const user = new User(users[i]['username'], pfp, 0);
+                    const user = new User(users[i]['username'], users[i]['user_id'], pfp, 0);
                     user.addUserToUsers();
                 }
                 usersLoaded ||= true;

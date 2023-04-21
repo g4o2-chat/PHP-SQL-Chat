@@ -1153,14 +1153,14 @@ class Message {
 }
 
 class User {
-    constructor(username, pfp, status) {
+    constructor(username, user_id, pfp, status) {
         this.username = username;
+        this.user_id = user_id
         this.pfp = pfp;
         this.status = status;
     }
     addUserToUsers() {
         const liElement = document.createElement("li");
-
         const imgElement = document.createElement("img");
         if(this.pfp) {
             imgElement.setAttribute("src", this.pfp);
@@ -1169,11 +1169,12 @@ class User {
         }
         imgElement.setAttribute("alt", `Profile picture for ${this.username}`);
 
-        const spanElement = document.createElement("span");
-        spanElement.textContent = this.username;
+        const aElement = document.createElement("a");
+        aElement.innerText = this.username;
+        aElement.setAttribute('href', chatURL.concat(`/profile.php?id=${this.user_id}`));
 
         liElement.appendChild(imgElement);
-        liElement.appendChild(spanElement);
+        liElement.appendChild(aElement);
 
         document.getElementById("users").appendChild(liElement);
     }

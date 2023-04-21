@@ -200,7 +200,7 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-gem me-3"></i>g4o2 chat
                         </h6>
                         <p>
-                            The development of this chat started on August 23rd, 2022, as a side project of g4o2. Since then, it has been continually updated with new features. Currently, it boasts a user base of approximately 60 to 70 individuals, with some contributors who have assisted with testing the chat.
+                            The development of this chat started on August 23rd, 2022, as a side project of g4o2. Since then, it has been continually updated with new features. Currently, it boasts a user base of approximately 100 to 130 individuals, with some contributors who have assisted with testing the chat.
                         </p>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">

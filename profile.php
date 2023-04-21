@@ -11,7 +11,7 @@ if (!isset($_GET['id']) && !isset($_SESSION['user_id'])) {
     die();
 }
 
-if(isset($_GET['id'])) {
+if (isset($_GET['id'])) {
     $userpfp = './assets/images/default-user-square.png';
     $stmt = $pdo->prepare("SELECT * FROM account WHERE user_id=?");
     $stmt->execute([$_GET['id']]);
@@ -74,11 +74,6 @@ if(isset($_GET['id'])) {
 </head>
 
 <body>
-    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-    <iframe data-aa='2194318' src='//acceptable.a-ads.com/2194318' style='border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;'></iframe>
-
     <?php
     include_once "navbar.php";
     ?>
@@ -91,12 +86,12 @@ if(isset($_GET['id'])) {
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><?= htmlentities($about) ?></li>
-            <li class="list-group-item">Test random text</li>
-            <li class="list-group-item">Test random text</li>
+            <li class="list-group-item">Undefined</li>
+            <li class="list-group-item">Undefined</li>
         </ul>
         <div class="card-body">
-            <a href="#" class="card-link">Link</a>
-            <a href="#" class="card-link">Link</a>
+            <a href="#" class="card-link">Undefined</a>
+            <a href="#" class="card-link">Undefined</a>
         </div>
     </div>
 </body>
