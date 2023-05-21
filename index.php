@@ -129,40 +129,40 @@ if (isset($_SESSION['email'])) {
             $('iframe').fadeIn(1000);
         });
     </script>
-    <div class="w-75 p-2" style="background-color: #eee;margin: auto;">
-    <main class="table-responsive">
-        <?php
-        if (isset($_SESSION["error"])) {
-            echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
-            unset($_SESSION["error"]);
-        }
-        if (isset($_SESSION["success"])) {
-            echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
-            unset($_SESSION["success"]);
-        }
+    <div class="w-100" style="background-color: #eee;margin: auto;">
+        <main class="table-responsive">
+            <?php
+            if (isset($_SESSION["error"])) {
+                echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
+                unset($_SESSION["error"]);
+            }
+            if (isset($_SESSION["success"])) {
+                echo ('<p class="text-success">' . htmlentities($_SESSION["success"]) . "</p>");
+                unset($_SESSION["success"]);
+            }
 
+            if (isset($_SESSION['user_id'])) {
+                echo '<p>User ID >> ' . $_SESSION['user_id'] . "</p>";
+            } else {
+                echo '<p>Please <a class="btn btn-outline-success" href="./login.php">Login</a></p>';
+            }
+            echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
+            echo '<a href="https://github.com/g4o2/g4o2-api" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2-api" alt="github repo"></a><hr/>';
+            ?>
+            <div class="img-container">
+                <img src='./assets/images/showcase/demo-2.PNG' />
+                <img src='./assets/images/showcase/demo-3.PNG' />
+                <img src='./assets/images/showcase/demo-2.PNG' />
+                <img src='./assets/images/showcase/demo-1.PNG' />
+            </div>
+        </main>
+        <?php
         if (isset($_SESSION['user_id'])) {
-            echo '<p>User ID >> ' . $_SESSION['user_id'] . "</p>";
+            // echo '<script> sessionStorage.setItem("user_id", "' . $_SESSION['user_id'] . '");</script>';
         } else {
-            echo '<p>Please <a class="btn btn-outline-success" href="./login.php">Login</a></p>';
+            // echo '<script> sessionStorage.removeItem("user_id"); </script>';
         }
-        echo '<a href="https://github.com/g4o2/PHP-SQL-Chat" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=PHP-SQL-Chat" alt="github repo"></a>';
-        echo '<a href="https://github.com/g4o2/g4o2-api" target="_blank"><img src="https://github-readme-stats.vercel.app/api/pin/?username=g4o2&repo=g4o2-api" alt="github repo"></a><hr/>';
         ?>
-        <div class="img-container">
-            <img src='./assets/images/showcase/demo-2.PNG' />
-            <img src='./assets/images/showcase/demo-3.PNG' />
-            <img src='./assets/images/showcase/demo-2.PNG' />
-            <img src='./assets/images/showcase/demo-1.PNG' />
-        </div>
-    </main>
-    <?php
-    if(isset($_SESSION['user_id'])) {
-        // echo '<script> sessionStorage.setItem("user_id", "' . $_SESSION['user_id'] . '");</script>';
-    } else {
-        // echo '<script> sessionStorage.removeItem("user_id"); </script>';
-    }
-    ?>
     </div>
     <footer class="text-center text-lg-start bg-light text-muted">
         <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
@@ -239,9 +239,9 @@ if (isset($_SESSION['email'])) {
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
                         <!-- <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p> -->
-                        <p><i class="fas fa-envelope me-3"></i>Maxhu787@gmail.com</p>
-                        <p><i class="fas fa-envelope me-3"></i>g4o2@protonmail.com</p>
-                        <p><i class="fas fa-envelope me-3"></i>g4o3@protonmail.com</p>
+                        <p><i class="fas fa-envelope me-3"></i><a href="mailto:maxhu787@gmail.com">maxhu787@gmail.com</a></p>
+                        <p><i class="fas fa-envelope me-3"></i><a href="mailto:g4o2@protonmail.com">g4o2@protonmail.com</a></p>
+                        <p><i class="fas fa-envelope me-3"></i><a href="mailto:g4o3@protonmail.com">g4o3@protonmail.com</a></p>
                         <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
                     </div>
                 </div>

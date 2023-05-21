@@ -70,7 +70,9 @@ a:hover {
     /* min-width: 200px; */
     overflow-y: auto;
     overflow-x: hidden;
+    /* overflow-x: auto; */
     text-overflow: ellipsis;
+    /* resize: horizontal; */
 }
 
 .box-2 {

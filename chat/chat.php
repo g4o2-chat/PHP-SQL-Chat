@@ -96,10 +96,11 @@ if (!isset($_SESSION["email"])) {
                         $("#copy-right").hide();
                         $('main').show(1000);
                         $('body').css({
-                            'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
-                            'background-repeat': 'no-repeat',
-                            'background-attachment': 'fixed',
-                            'background-size': '100% 100%'
+                            'background-color': 'rgba(41, 41, 41)',
+                            // 'background': 'url(../assets/backgrounds/burj-khalifa.jpg)',
+                            // 'background-repeat': 'no-repeat',
+                            // 'background-attachment': 'fixed',
+                            // 'background-size': '100% 100%'
                         });
                         // $('body').css({
                         //     'background': 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)'
