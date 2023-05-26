@@ -53,10 +53,10 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        // const url = "https://g4o2-api.maxhu787.repl.co";
-        const url = "http://localhost:3000";
-        // const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
-        const chatURL = "http://localhost/php-sql-chat";
+        const url = "https://g4o2.idx.tw:4000";
+        // const url = "http://localhost:3000";
+        const chatURL = "https://g4o2.idx.tw";
+        // const chatURL = "http://localhost/php-sql-chat";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');
