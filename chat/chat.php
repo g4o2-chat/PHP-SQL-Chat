@@ -1,6 +1,7 @@
 <?php
 session_start();
 ob_start();
+require_once "../head-chat.php";
 ini_set('display_errors', 0);
 if (!isset($_SESSION["email"])) {
     include 'head.php';
@@ -40,12 +41,7 @@ if (!isset($_SESSION["email"])) {
         </div>
         <div class="box box-3">
             <ul>
-                <li>server 1</li>
-                <li>server 1</li>
-                <li>server 1</li>
-                <li>server 1</li>
-                <li>server 1</li>
-                <li>server 1</li>
+                <li>general</li>
             </ul>
             <!-- <p>&copy; <span id="footer-year">2023</span> G4O2 Chat. All rights reserved.</p> -->
         </div>
@@ -57,10 +53,10 @@ if (!isset($_SESSION["email"])) {
     <script src="./index.js"></script>
     <script>
         $('main').hide();
-        const url = "https://g4o2-api.maxhu787.repl.co";
-        // const url = "http://localhost:3000";
-        const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
-        // const chatURL = "http://localhost/php-sql-chat";
+        // const url = "https://g4o2-api.maxhu787.repl.co";
+        const url = "http://localhost:3000";
+        // const chatURL = "https://PHP-SQL-Chat.maxhu787.repl.co";
+        const chatURL = "http://localhost/php-sql-chat";
         const socket = io(url);
         const messages = document.getElementById('messages');
         const form = document.getElementById('message-form');

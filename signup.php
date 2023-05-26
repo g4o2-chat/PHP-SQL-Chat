@@ -50,7 +50,7 @@ if (isset($_POST["submit"])) {
 ?>
 
 <head>
-    <title>Create Account</title>
+    <title>Sign up</title>
     <style>
         html,
         body {
@@ -78,6 +78,7 @@ if (isset($_POST["submit"])) {
             max-width: 330px;
             padding: 15px;
             margin: 0 auto;
+            /* text-align: center; */
         }
 
         .form-signin .checkbox {
@@ -110,8 +111,8 @@ if (isset($_POST["submit"])) {
     </style>
 </head>
 <form class="form-signin" method="post" action="./signup.php" enctype="multipart/form-data">
-    <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Signup</h1>
+    <img class="mb-4" src="./favicon.ico" alt="" width="72" height="72" style="float: left;">
+    <h1 class="h3 mb-3 font-weight-normal" style="margin-top: 24px; margin-left: 90px;">Sign up</h1>
     <?php
     if (isset($_SESSION["error"])) {
         echo ('<p class="text-danger">' . htmlentities($_SESSION["error"]) . "</p>");
@@ -138,13 +139,13 @@ if (isset($_POST["submit"])) {
     <p class="mt-5 mb-3 text-muted">© <?= date("Y") ?></p>
     By registering, you agree to our <a href="./terms-of-service.php" target="_blank">Terms</a>, <a href="./privacy-policy.php" target="_blank">Privacy Policy</a> and <a href="./cookie-policy.php" target="_blank">Cookie Policy</a>.<br />
 </form>
-
-<script src="./particles/particles.js"></script>
 <script>
     document.getElementById('username').onkeydown = function(e) {
         var value = e.target.value;
-        if (!e.key.match(/[a-zA-Z0-9_]/) || (e.key == '_' && value[value.length - 1] == '_')) {
-            e.preventDefault();
+        if (value) {
+            if (!e.key.match(/[a-zA-Z0-9_]/) || (e.key == '_' && value[value.length - 1] == '_')) {
+                e.preventDefault();
+            }
         }
     };
 
@@ -181,7 +182,7 @@ if (isset($_POST["submit"])) {
         return false;
     }
     setTimeout(function() {
-        document.querySelector('.popup-msg').style.display = "none";
-        document.querySelector('.error').style.display = "none";
+        // document.querySelector('.popup-msg').style.display = "none";
+        // document.querySelector('.error').style.display = "none";
     }, 2200);
 </script>

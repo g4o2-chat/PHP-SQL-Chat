@@ -189,9 +189,10 @@ a:hover {
 }
 
 #message-form {
-    flex: .7;
+    flex: .6;
     display: flex;
-
+    min-height: 40px;
+    max-height: 40px;
     flex-direction: row;
 }
 
@@ -206,7 +207,7 @@ a:hover {
 }
 
 #message-form input[type='file'] {
-    flex: 4;
+    flex: 2;
 }
 
 #message-form button {
