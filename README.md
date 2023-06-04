@@ -9,7 +9,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/g4o2-chat/PHP-SQL-Chat?color=blue) 
 ![GitHub repo size](https://img.shields.io/github/repo-size/g4o2-chat/PHP-SQL-Chat) 
 ## Info
-Repo archived cause the code is just too messy, and I'm working on a newer version using ReactJS
+Repo archived cause the code is just too messy, and I'm working on a newer version using ReactJS (2023/6/4)
 
 Mysql database hosted with <a href="https://www.freemysqlhosting.net">freemysqlhosting.net</a><br/>
 Page hosted on <a href="https://php-sql-chat.maxhu787.repl.co/index.php">repl</a><br/>
