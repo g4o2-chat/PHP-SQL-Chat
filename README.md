@@ -8,21 +8,15 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/g4o2-chat/PHP-SQL-Chat?label=Commits) 
 ![GitHub last commit](https://img.shields.io/github/last-commit/g4o2-chat/PHP-SQL-Chat?color=blue) 
 ![GitHub repo size](https://img.shields.io/github/repo-size/g4o2-chat/PHP-SQL-Chat) 
-## Progress
-Currently working on v2.1.0<br/>
-Most of the styling now is bootstrap except for the chat.php page (Still working on it)<br/>
-Also I will fix the slow chat loading <br/>
-Expect a new update soon
-# v2.0.0
+## Info
+Repo archived cause the code is just too messy, and I'm working on a newer version using ReactJS
 
-## Updates
-- Bootstrap styling
-- Bug fixes
-- XSS exploit proof
+Mysql database hosted with <a href="https://www.freemysqlhosting.net">freemysqlhosting.net</a><br/>
+Page hosted on <a href="https://php-sql-chat.maxhu787.repl.co/index.php">repl</a><br/>
+Sql exports can be found <a href="https://github.com/g4o2/PHP-SQL-Chat/discussions/4">here</a><br/>
+<a href="https://github.com/g4o2/g4o2-api">Repo</a> for the api<br/>
 
-Mysql database hosted with <a href="https://www.freemysqlhosting.net">freemysqlhosting.net</a>
-Page hosted on <a href="https://php-sql-chat.maxhu787.repl.co/index.php">repl</a>
-
+# Screenshots
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-1.PNG">
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-3.PNG">
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-4.PNG">
