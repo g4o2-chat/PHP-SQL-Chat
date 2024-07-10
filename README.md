@@ -23,4 +23,3 @@ Sql exports can be found <a href="https://github.com/g4o2/PHP-SQL-Chat/discussio
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-5.PNG">
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-6.PNG">
 <img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-7.PNG">
-<img width="960" alt="g4o2-chat-v1.1.1" src="https://raw.githubusercontent.com/g4o2/gallery/main/v1.1.1-v2.0.0/g4o2-chat-v2.0.0-8.PNG">
